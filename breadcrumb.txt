@@ -1,0 +1,68 @@
+	<?php include( get_template_directory() . '/breadcrumb.php' ); ?>
+
+<ul class="breadcrumb" itemScope itemType="https://schema.org/BreadcrumbList">
+	<li itemProp="itemListElement" itemScope itemType="http://schema.org/ListItem">
+		<a class="" itemProp="item" title="Xem Phim" href="/">
+			<span class="" itemProp="name">
+				<i class="fa fa-home"></i> Motchill
+			</span>
+		</a>
+		<meta itemProp="position" content="1" />
+	</li>
+	<?php if (is_tax()) { ?>
+	<li class="" itemProp="itemListElement" itemScope="" itemType="http://schema.org/ListItem">
+			<span class="breadcrumb_last" itemProp="name">
+				<?= single_tag_title(); ?>
+			</span>
+		<meta itemProp="position" content="2" />
+	</li>
+	<?php } else if(is_archive()) { ?>
+	<li class="" itemProp="itemListElement" itemScope="" itemType="http://schema.org/ListItem">
+			<span class="breadcrumb_last" itemProp="name">
+			Kho Phim Mới
+			</span>
+		<meta itemProp="position" content="2" />
+	</li>
+	<?php } else { ?>
+	<?php $categories = get_the_terms(get_the_ID(), "ophim_categories");
+				  if (!empty($categories) && !is_wp_error($categories)) {
+					  $term = reset($categories); ?>
+	<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+		<a itemprop="item" href="<?php echo home_url('/') . (get_option('ophim_slug_categories') ? get_option('ophim_slug_categories') : 'categories') . '/' . $term->slug . '/'; ?>" 
+		                   title="<?php echo esc_attr($term->name); ?>">
+			<span itemprop="name">
+				<?php echo esc_html($term->name); ?>
+			</span>
+		</a>
+		<meta itemprop="position" content="2">
+	</li> <?php } ?>
+	<?php if (isEpisode()) { ?>
+	<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+		<a itemprop="item" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+			<span itemprop="name"><?php the_title(); ?></span>
+		</a>
+		<meta itemprop="position" content="3">
+	</li>
+    <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+        <span itemprop="name"><?php the_title(); ?> - Tập <?= episodeName() ?></span>
+        <meta itemprop="position" content="4">
+    </li>
+	<?php } elseif (is_single() && get_post_type() == 'ophim') {?>
+	<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+		<span itemprop="name"><?php the_title(); ?></span>
+		<meta itemprop="position" content="3">
+	</li>
+	<?php } ?>
+	<?php } ?>
+</ul>
+<style>.breadcrumb { display:flex; list-style:none; padding:10px 15px; margin:1rem 0; font-size:16px; background:#1a1a20; border-radius:4px; box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+.breadcrumb li { display:flex; align-items:center; }
+.breadcrumb li+li::before { content:"»"; margin:0 8px; color:#da966e; }
+.breadcrumb a { text-decoration:none; color:#da966e; transition:color 0.2s; }
+.breadcrumb a:hover { color:#0056b3; text-decoration:underline; }
+.breadcrumb .breadcrumb_last { font-weight:700; color:#ddd; }
+.breadcrumb i { margin-right:5px; color:#da966e; }
+@media(max-width:768px) {
+    .breadcrumb { font-size:14px; } .breadcrumb li+li::before { margin:0 5px; } 
+} 
+</style>

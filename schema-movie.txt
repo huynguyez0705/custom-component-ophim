@@ -1,0 +1,47 @@
+<?php
+$ratingValue = function_exists('op_get_rating') && op_get_rating() ? op_get_rating() : '10';
+$ratingCount = function_exists('op_get_rating_count') && op_get_rating_count() ? op_get_rating_count() : '10';
+
+$directors = get_the_terms(get_the_ID(), "ophim_directors");
+$director_name = (!empty($directors) && !is_wp_error($directors)) ?  implode(', ', wp_list_pluck($directors, 'name')) : ''; // Lấy tên đạo diễn đầu tiên
+
+$genres = get_the_terms(get_the_ID(), "ophim_genres");
+$genre_names = !empty($genres) && !is_wp_error($genres) ? implode(', ', wp_list_pluck($genres, 'name')) : '';
+
+$actors = get_the_terms(get_the_ID(), "ophim_actors");
+$actor_names = !empty($actors) && !is_wp_error($actors) ? implode(', ', wp_list_pluck($actors, 'name')) : '';
+?>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Movie",
+  "name": "<?php the_title(); ?>",
+  "description": "<?php echo esc_html(get_the_excerpt()); ?>",
+  "image": "<?= esc_url(op_get_thumb_url()); ?>",
+  "datePublished": "<?= esc_html(op_get_year()); ?>",
+  "director": {
+    "@type": "Person",
+    "name": "<?= esc_html($director_name); ?>"
+  },
+  "actor": [
+    <?php
+    $actor_array = explode(', ', $actor_names);
+    if (!empty($actor_array)) {
+        foreach ($actor_array as $key => $actor) {
+            echo ($key > 0 ? ',' : '') . '{"@type": "Person", "name": "' . esc_html($actor) . '"}';
+        }
+    }
+    ?>
+  ],
+  "genre": "<?= esc_html($genre_names); ?>",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "<?= esc_js($ratingValue); ?>",
+    "ratingCount": "<?= esc_js($ratingCount); ?>",
+    "bestRating": "10",
+    "worstRating": "1"
+  }
+}
+</script>
+
