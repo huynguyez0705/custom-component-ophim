@@ -1,0 +1,88 @@
+<?php
+$term = get_queried_object(); // Lấy thông tin taxonomy hiện tại
+$movies = new WP_Query(array(
+    'post_type' => 'ophim', // Thay bằng post type của bạn
+    'tax_query' => array(
+        array(
+            'taxonomy' => $term->taxonomy,
+            'field'    => 'slug',
+            'terms'    => $term->slug,
+        ),
+    ),
+));
+
+if ($movies->have_posts()) :
+?>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "<?php echo esc_html($term->name); ?>",
+  "description": "<?php echo esc_html($term->description); ?>",
+  "url": "<?php echo esc_url(get_term_link($term)); ?>",
+  "itemListOrder": "Descending",
+  "numberOfItems": "<?php echo $movies->post_count; ?>",
+  "itemListElement": [
+    <?php
+    $index = 1;
+    while ($movies->have_posts()) :
+        $movies->the_post();
+        $movie_title = get_the_title();
+        $movie_url = get_permalink();
+        $movie_image = function_exists('op_get_thumb_url') ? op_get_thumb_url() : '';
+        $movie_description = get_the_excerpt();
+        $directors = get_the_terms(get_the_ID(), "ophim_directors");
+        $director_name = (!empty($directors) && !is_wp_error($directors)) ? implode(', ', wp_list_pluck($directors, 'name')) : 'Đang cập nhật';
+        $actors = get_the_terms(get_the_ID(), "ophim_actors");
+        $actor_names = (!empty($actors) && !is_wp_error($actors)) ? implode(', ', wp_list_pluck($actors, 'name')) : 'Đang cập nhật';
+        $genres = get_the_terms(get_the_ID(), "ophim_genres");
+        $genre_names = (!empty($genres) && !is_wp_error($genres)) ? implode(', ', wp_list_pluck($genres, 'name')) : '';
+        $ratingValue = function_exists('op_get_rating') && op_get_rating() ? op_get_rating() : '10';
+        $ratingCount = function_exists('op_get_rating_count') && op_get_rating_count() ? op_get_rating_count() : '10';
+    ?>
+    {
+      "@type": "ListItem",
+      "position": <?php echo $index; ?>,
+      "item": {
+        "@type": "Movie",
+        "name": "<?php echo esc_html($movie_title); ?>",
+        "url": "<?php echo esc_url($movie_url); ?>",
+        "image": "<?php echo esc_url($movie_image); ?>",
+        "description": "<?php echo esc_html($movie_description); ?>",
+        "dateCreated": "<?php echo esc_html(op_get_year()); ?>",
+        "director": {
+          "@type": "Person",
+          "name": "<?php echo esc_html($director_name); ?>"
+        },
+        "actor": [
+          <?php
+          $actor_array = explode(', ', $actor_names);
+          if (!empty($actor_array)) {
+              foreach ($actor_array as $key => $actor) {
+                  echo ($key > 0 ? ',' : '') . '{"@type": "Person", "name": "' . esc_html($actor) . '"}';
+              }
+          }
+          ?>
+        ],
+        "genre": "<?php echo esc_html($genre_names); ?>",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "<?php echo esc_js($ratingValue); ?>",
+          "ratingCount": "<?php echo esc_js($ratingCount); ?>",
+          "bestRating": "10",
+          "worstRating": "1"
+        }
+      }
+    }
+    <?php
+        echo ($movies->current_post + 1 < $movies->post_count ? ',' : '');
+        $index++;
+    endwhile;
+    wp_reset_postdata();
+    ?>
+  ]
+}
+</script>
+<?php
+endif;
+?>
