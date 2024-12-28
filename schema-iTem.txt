@@ -1,15 +1,9 @@
 <?php
-$term = get_queried_object(); // Lấy thông tin taxonomy hiện tại
-$movies = new WP_Query(array(
-    'post_type' => 'ophim', // Thay bằng post type của bạn
-    'tax_query' => array(
-        array(
-            'taxonomy' => $term->taxonomy,
-            'field'    => 'slug',
-            'terms'    => $term->slug,
-        ),
-    ),
-));
+$term = get_queried_object();
+$movies = new WP_Query([
+    'post_type' => 'ophim',
+    'tax_query' => [['taxonomy' => $term->taxonomy, 'field' => 'slug', 'terms' => $term->slug]],
+]);
 
 if ($movies->have_posts()) :
 ?>
@@ -17,72 +11,55 @@ if ($movies->have_posts()) :
 {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": "<?php echo esc_html($term->name); ?>",
-  "description": "<?php echo esc_html($term->description); ?>",
-  "url": "<?php echo esc_url(get_term_link($term)); ?>",
+  "name": "<?= esc_html($term->name); ?>",
+  "description": "<?= esc_html($term->description); ?>",
+  "url": "<?= esc_url(get_term_link($term)); ?>",
   "itemListOrder": "Descending",
-  "numberOfItems": "<?php echo $movies->post_count; ?>",
+  "numberOfItems": "<?= $movies->post_count; ?>",
   "itemListElement": [
     <?php
     $index = 1;
-    while ($movies->have_posts()) :
-        $movies->the_post();
-        $movie_title = get_the_title();
-        $movie_url = get_permalink();
-        $movie_image = function_exists('op_get_thumb_url') ? op_get_thumb_url() : '';
-        $movie_description = get_the_excerpt();
-        $directors = get_the_terms(get_the_ID(), "ophim_directors");
-        $director_name = (!empty($directors) && !is_wp_error($directors)) ? implode(', ', wp_list_pluck($directors, 'name')) : 'Đang cập nhật';
-        $actors = get_the_terms(get_the_ID(), "ophim_actors");
-        $actor_names = (!empty($actors) && !is_wp_error($actors)) ? implode(', ', wp_list_pluck($actors, 'name')) : 'Đang cập nhật';
-        $genres = get_the_terms(get_the_ID(), "ophim_genres");
-        $genre_names = (!empty($genres) && !is_wp_error($genres)) ? implode(', ', wp_list_pluck($genres, 'name')) : '';
-        $ratingValue = function_exists('op_get_rating') && op_get_rating() ? op_get_rating() : '10';
-        $ratingCount = function_exists('op_get_rating_count') && op_get_rating_count() ? op_get_rating_count() : '10';
+    while ($movies->have_posts()) : $movies->the_post();
+        $movie = [
+            'name' => esc_html(get_the_title()),
+            'url' => esc_url(get_permalink()),
+            'image' => esc_url(function_exists('op_get_thumb_url') ? op_get_thumb_url() : ''),
+            'description' => esc_html(wp_strip_all_tags(wp_trim_words(get_the_content(), 20))),
+            'dateCreated' => esc_html(op_get_year()),
+            'director' => implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_directors") ?: [], 'name')) ?: 'Đang cập nhật',
+            'actor' => implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_actors") ?: [], 'name')) ?: 'Đang cập nhật',
+            'genre' => implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_genres") ?: [], 'name')) ?: 'Đang cập nhật',
+            'ratingValue' => function_exists('op_get_rating') ? op_get_rating() : '10',
+            'ratingCount' => function_exists('op_get_rating_count') ? op_get_rating_count() : '10',
+        ];
     ?>
     {
       "@type": "ListItem",
-      "position": <?php echo $index; ?>,
+      "position": <?= $index; ?>,
       "item": {
         "@type": "Movie",
-        "name": "<?php echo esc_html($movie_title); ?>",
-        "url": "<?php echo esc_url($movie_url); ?>",
-        "image": "<?php echo esc_url($movie_image); ?>",
-        "description": "<?php echo esc_html($movie_description); ?>",
-        "dateCreated": "<?php echo esc_html(op_get_year()); ?>",
-        "director": {
-          "@type": "Person",
-          "name": "<?php echo esc_html($director_name); ?>"
-        },
+        "name": "<?= $movie['name']; ?>",
+        "url": "<?= $movie['url']; ?>",
+        "image": "<?= $movie['image']; ?>",
+        "description": "<?= $movie['description']; ?>",
+        "dateCreated": "<?= $movie['dateCreated']; ?>",
+        "director": {"@type": "Person", "name": "<?= $movie['director']; ?>"},
         "actor": [
-          <?php
-          $actor_array = explode(', ', $actor_names);
-          if (!empty($actor_array)) {
-              foreach ($actor_array as $key => $actor) {
-                  echo ($key > 0 ? ',' : '') . '{"@type": "Person", "name": "' . esc_html($actor) . '"}';
-              }
-          }
-          ?>
+          <?= implode(',', array_map(fn($actor) => '{"@type": "Person", "name": "' . esc_html($actor) . '"}', explode(', ', $movie['actor']))); ?>
         ],
-        "genre": "<?php echo esc_html($genre_names); ?>",
+        "genre": "<?= $movie['genre']; ?>",
         "aggregateRating": {
           "@type": "AggregateRating",
-          "ratingValue": "<?php echo esc_js($ratingValue); ?>",
-          "ratingCount": "<?php echo esc_js($ratingCount); ?>",
+          "ratingValue": "<?= $movie['ratingValue']; ?>",
+          "ratingCount": "<?= $movie['ratingCount']; ?>",
           "bestRating": "10",
           "worstRating": "1"
         }
       }
     }
-    <?php
-        echo ($movies->current_post + 1 < $movies->post_count ? ',' : '');
-        $index++;
-    endwhile;
-    wp_reset_postdata();
-    ?>
+    <?= $movies->current_post + 1 < $movies->post_count ? ',' : ''; ?>
+    <?php $index++; endwhile; wp_reset_postdata(); ?>
   ]
 }
 </script>
-<?php
-endif;
-?>
+<?php endif; ?>
