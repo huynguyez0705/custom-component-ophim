@@ -44,12 +44,12 @@
 		<meta itemprop="position" content="3">
 	</li>
     <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
-        <span itemprop="name"><?php the_title(); ?> - Tập <?= episodeName() ?></span>
+        <span itemprop="name" class="breadcrumb_last"><?php the_title(); ?> - Tập <?= episodeName() ?></span>
         <meta itemprop="position" content="4">
     </li>
 	<?php } elseif (is_single() && get_post_type() == 'ophim') {?>
 	<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
-		<span itemprop="name"><?php the_title(); ?></span>
+		<span itemprop="name" class="breadcrumb_last"><?php the_title(); ?></span>
 		<meta itemprop="position" content="3">
 	</li>
 	<?php } ?>
@@ -60,7 +60,7 @@
 .breadcrumb li+li::before { content:"»"; margin:0 8px; color:#da966e; }
 .breadcrumb a { text-decoration:none; color:#da966e; transition:color 0.2s; }
 .breadcrumb a:hover { color:#0056b3; text-decoration:underline; }
-.breadcrumb .breadcrumb_last { font-weight:700; color:#ddd; }
+.breadcrumb .breadcrumb_last { color:#ddd; }
 .breadcrumb i { margin-right:5px; color:#da966e; }
 @media(max-width:768px) {
     .breadcrumb { font-size:14px; } .breadcrumb li+li::before { margin:0 5px; } 

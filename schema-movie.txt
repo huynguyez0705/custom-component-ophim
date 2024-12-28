@@ -1,10 +1,12 @@
 <?php
+
+$term_id = get_queried_object_id();
+
 $ratingValue = function_exists('op_get_rating') && op_get_rating() ? op_get_rating() : '10';
 $ratingCount = function_exists('op_get_rating_count') && op_get_rating_count() ? op_get_rating_count() : '10';
 
 $directors = get_the_terms(get_the_ID(), "ophim_directors");
-$director_name = (!empty($directors) && !is_wp_error($directors)) ?  implode(', ', wp_list_pluck($directors, 'name')) : ''; // Lấy tên đạo diễn đầu tiên
-
+$director_name = (!empty($directors) && !is_wp_error($directors)) ?  implode(', ', wp_list_pluck($directors, 'name')) : ''; 
 $genres = get_the_terms(get_the_ID(), "ophim_genres");
 $genre_names = !empty($genres) && !is_wp_error($genres) ? implode(', ', wp_list_pluck($genres, 'name')) : '';
 
