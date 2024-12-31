@@ -1,0 +1,60 @@
+<?php
+
+$ratingValue = (op_get_rating() > 0) ? op_get_rating() : '10';
+$ratingCount = (op_get_rating_count() > 0) ? op_get_rating_count() : '10';
+$director_name = implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_directors") ?: [], 'name')) ?: 'Đang cập nhật';
+$genre_names = implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_genres") ?: [], 'name')) ?: 'Đang cập nhật';
+$actor_names = implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_actors") ?: [], 'name')) ?: 'Đang cập nhật';
+$current_url = home_url($_SERVER['REQUEST_URI']);
+$video_embed_url = embedEpisodeUrl(); // URL video embed
+$video_m3u8_url = m3u8EpisodeUrl(); // URL m3u8 video
+?>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Movie",
+  "name": "<?php the_title(); ?> - Tập <?= episodeName(); ?>",
+  "description": "<?php echo esc_html(get_the_excerpt(20)); ?>",
+  "image": "<?= esc_url(op_get_thumb_url()); ?>",
+  "datePublished": "<?= esc_html(op_get_year()); ?>",
+  "dateCreated": "<?= get_the_date('Y-m-d'); ?>",
+   "url":"<?= esc_html($current_url); ?>",
+  "director": {
+    "@type": "Person",
+    "name": "<?= esc_html($director_name); ?>"
+  },
+  "actor": [
+    <?php
+    $actor_array = explode(', ', $actor_names);
+    if (!empty($actor_array)) {
+        foreach ($actor_array as $key => $actor) {
+            echo ($key > 0 ? ',' : '') . '{"@type": "Person", "name": "' . esc_html($actor) . '"}';
+        }
+    }
+    ?>
+  ],
+  "genre": "<?= esc_html($genre_names); ?>",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "<?= esc_js($ratingValue); ?>",
+    "ratingCount": "<?= esc_js($ratingCount); ?>",
+    "bestRating": "10",
+    "worstRating": "1"
+  },
+   "video": {
+    "@type": "VideoObject",
+    "name": "<?php the_title(); ?> - Tập <?= episodeName(); ?>",
+    "description": "<?php echo esc_html(get_the_excerpt(20)); ?>",
+    "thumbnailUrl": "<?= esc_url(op_get_thumb_url()); ?>",
+    "uploadDate": "<?= get_the_date('c'); ?>",
+    "contentUrl": "<?= esc_url($video_m3u8_url); ?>",
+    "embedUrl": "<?= esc_url($video_embed_url); ?>",
+    "interactionStatistic": {
+      "@type": "InteractionCounter",
+      "interactionType": "https://schema.org/WatchAction",
+      "userInteractionCount": "<?= esc_js($ratingCount); ?>"
+    }
+  }
+ 
+}

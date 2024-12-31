@@ -25,12 +25,13 @@ if ($movies->have_posts()) :
             'url' => esc_url(get_permalink()),
             'image' => esc_url(function_exists('op_get_thumb_url') ? op_get_thumb_url() : ''),
             'description' => esc_html(wp_strip_all_tags(wp_trim_words(get_the_content(), 20))),
-            'dateCreated' => esc_html(op_get_year()),
+	    'datePublished' => esc_html(op_get_year()),
+            'dateCreated' =>get_the_date('Y-m-d'),
             'director' => implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_directors") ?: [], 'name')) ?: 'Đang cập nhật',
             'actor' => implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_actors") ?: [], 'name')) ?: 'Đang cập nhật',
             'genre' => implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_genres") ?: [], 'name')) ?: 'Đang cập nhật',
-            'ratingValue' => function_exists('op_get_rating') ? op_get_rating() : '10',
-            'ratingCount' => function_exists('op_get_rating_count') ? op_get_rating_count() : '10',
+            'ratingValue' => (op_get_rating() > 0) ? op_get_rating() : '10',
+            'ratingCount' =>  (op_get_rating_count() > 0) ? op_get_rating_count() : '10',
         ];
     ?>
     {
@@ -43,18 +44,11 @@ if ($movies->have_posts()) :
         "image": "<?= $movie['image']; ?>",
         "description": "<?= $movie['description']; ?>",
         "dateCreated": "<?= $movie['dateCreated']; ?>",
+	"genre": "<?= $movie['genre']; ?>",
         "director": {"@type": "Person", "name": "<?= $movie['director']; ?>"},
         "actor": [
           <?= implode(',', array_map(fn($actor) => '{"@type": "Person", "name": "' . esc_html($actor) . '"}', explode(', ', $movie['actor']))); ?>
-        ],
-        "genre": "<?= $movie['genre']; ?>",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "<?= $movie['ratingValue']; ?>",
-          "ratingCount": "<?= $movie['ratingCount']; ?>",
-          "bestRating": "10",
-          "worstRating": "1"
-        }
+        ]
       }
     }
     <?= $movies->current_post + 1 < $movies->post_count ? ',' : ''; ?>

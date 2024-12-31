@@ -13,10 +13,35 @@ add_filter('rank_math/frontend/title', function($title) {
     return $title;
 }, 10, 1);
 
-function mod_browser_tab_title( $title )
-{
-    if(episodeName()){
-        $title = $title.' - Tập '.episodeName();
+add_filter('wpseo_title', function($title) {
+    if (isEpisode()) {
+        $post_title = get_the_title(get_the_ID());
+        $year = op_get_year(get_the_ID()) ?: 'Không rõ';
+        $lang = op_get_lang(get_the_ID()) ?: 'Không rõ';
+        $quality = op_get_quality(get_the_ID()) ?: 'SD';
+        $episode = episodeName() ?: '1';
+
+        // Tạo tiêu đề bằng nội suy chuỗi
+        $custom_title = "Xem phim {$post_title} ({$year}) - {$lang} {$quality} - Tập {$episode} | HHKUNGFU";
+
+        return $custom_title;
     }
     return $title;
+}, 10, 1);
+
+
+
+
+function op_get_year($end ='')
+{
+    $html = "";
+    $years = get_the_terms(get_the_ID(), "ophim_years");
+    if (is_array($years)) {
+        foreach ($years as $y) {
+            if (preg_match('/^\d{4}$/', $y->name)) {
+                $html .= $y->name . $end; // Nối năm với $end nếu có
+            }
+        }
+    }
+    return $html;
 }

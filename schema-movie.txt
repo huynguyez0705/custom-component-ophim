@@ -1,6 +1,6 @@
 <?php
-$ratingValue = op_get_rating() ?: '10';
-$ratingCount = op_get_rating_count() ?: '10';
+$ratingValue = (op_get_rating() > 0) ? op_get_rating() : '10';
+$ratingCount = (op_get_rating_count() > 0) ? op_get_rating_count() : '10';
 
 $director_name = implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_directors") ?: [], 'name')) ?: 'Đang cập nhật';
 $genre_names = implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_genres") ?: [], 'name')) ?: 'Đang cập nhật';
@@ -33,3 +33,17 @@ $actor_names = implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_ac
   }
 }
 </script>
+
+function op_get_year($end ='')
+{
+    $html = "";
+    $years = get_the_terms(get_the_ID(), "ophim_years");
+    if (is_array($years)) {
+        foreach ($years as $y) {
+            if (preg_match('/^\d{4}$/', $y->name)) {
+                $html .= $y->name . $end; // Nối năm với $end nếu có
+            }
+        }
+    }
+    return $html;
+}
