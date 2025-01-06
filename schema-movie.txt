@@ -1,13 +1,4 @@
-<?php
-$ratingValue = (op_get_rating() > 0) ? op_get_rating() : '10';
-$ratingCount = (op_get_rating_count() > 0) ? op_get_rating_count() : '10';
-
-$director_name = implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_directors") ?: [], 'name')) ?: 'Đang cập nhật';
-$genre_names = implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_genres") ?: [], 'name')) ?: 'Đang cập nhật';
-$actor_names = implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_actors") ?: [], 'name')) ?: 'Đang cập nhật';
-?>
-
-<script type="application/ld+json">
+	<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Movie",
@@ -16,34 +7,15 @@ $actor_names = implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), "ophim_ac
   "image": "<?= esc_url(op_get_thumb_url()); ?>",
   "datePublished": "<?= esc_html(op_get_year()); ?>",
   "dateCreated": "<?= get_the_date('Y-m-d'); ?>",
-  "director": {"@type": "Person", "name": "<?= esc_html($director_name); ?>"},
-  "actor": [
-    <?php
-    $actors = explode(', ', $actor_names);
-    echo implode(',', array_map(fn($actor) => '{"@type": "Person", "name": "' . esc_html($actor) . '"}', $actors));
-    ?>
-  ],
-  "genre": "<?= esc_html($genre_names); ?>",
+	"director":[<?php $directors=get_the_terms(get_the_ID(),"ophim_directors")?:[];foreach($directors as $key=>$director){echo($key>0?',':'').'{"@type":"Person","name":"'.(!empty($director->name)?esc_html($director->name):'Đang cập nhật').'","url":"'.(!empty(get_term_link($director))?esc_url(get_term_link($director)):'Đang cập nhật').'"}';}if(empty($directors))echo'{"@type":"Person","name":"Đang cập nhật","url":"Đang cập nhật"}';?>],
+	"actor":[<?php $actors=get_the_terms(get_the_ID(),"ophim_actors")?:[];foreach($actors as $key=>$actor){echo($key>0?',':'').'{"@type":"Person","name":"'.(!empty($actor->name)?esc_html($actor->name):'Đang cập nhật').'","url":"'.(!empty(get_term_link($actor))?esc_url(get_term_link($actor)):'Đang cập nhật').'"}';}if(empty($actors))echo'{"@type":"Person","name":"Đang cập nhật","url":"Đang cập nhật"}';?>],
+  "genre": "<?= esc_html(implode(', ', wp_list_pluck(get_the_terms(get_the_ID(), 'ophim_genres') ?: [], 'name')) ?: 'Đang cập nhật'); ?>",
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": "<?= esc_html($ratingValue); ?>",
-    "ratingCount": "<?= esc_html($ratingCount); ?>",
+   "ratingValue": "<?= (op_get_rating() > 0) ? esc_html(op_get_rating()) : '10'; ?>",
+    "ratingCount": "<?= (op_get_rating_count() > 0) ? esc_html(op_get_rating_count()) : '10'; ?>",
     "bestRating": "10",
     "worstRating": "1"
   }
 }
-</script>
-
-function op_get_year($end ='')
-{
-    $html = "";
-    $years = get_the_terms(get_the_ID(), "ophim_years");
-    if (is_array($years)) {
-        foreach ($years as $y) {
-            if (preg_match('/^\d{4}$/', $y->name)) {
-                $html .= $y->name . $end; // Nối năm với $end nếu có
-            }
-        }
-    }
-    return $html;
-}
+	</script>

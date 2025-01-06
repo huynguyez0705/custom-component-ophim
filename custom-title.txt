@@ -20,7 +20,7 @@ add_filter('wpseo_title', function($title) {
         $lang = op_get_lang(get_the_ID());
         $quality = op_get_quality(get_the_ID());
         $episode = episodeName();
-		$ori_title = op_get_original_title();
+	$ori_title = op_get_original_title();
 
         // Tạo tiêu đề bằng nội suy chuỗi
         $custom_title = "Xem phim {$post_title} ({$year}) - {$lang} {$quality} - Tập {$episode} | HHKUNGFU";
