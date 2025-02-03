@@ -50,12 +50,15 @@ add_filter('wpseo_title', function($title) {
 
 // keywords
 add_action("wp_head", function() {
-    $title = get_the_title(get_the_ID());
-    $ori_title = op_get_original_title();
-    echo <<<EOT
-<meta name="keywords" content="{$title}, {$ori_title}"/>
-EOT;
-});
+    if (is_singular('ophim')) { // Kiểm tra nếu là trang chi tiết của post type "ophim"
+        $title = get_the_title(get_the_ID());
+        $ori_title = function_exists('op_get_original_title') ? op_get_original_title() : '';
+        echo <<<EOT
+		<meta name="keywords" content="{$title}, {$ori_title}"/>
+		EOT;
+        echo "\n"; // Xuống dòng cho dễ đọc trong source HTML
+    }
+},2);
 
 
 // op_get_year
