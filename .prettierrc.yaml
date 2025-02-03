@@ -1,0 +1,17 @@
+arrowParens: avoid # Tránh sử dụng dấu ngoặc nhọn ('()') khi không cần thiết.
+bracketSameLine: true # Đặt dấu ngoặc vuông trên cùng dòng của đối tượng và mảng.
+semi: false # Không sử dụng dấu chấm phẩy.
+experimentalTernaries: false # Không sử dụng toán tử ba ngôi kinh nghiệm.
+singleQuote: true # Sử dụng dấu nháy đơn thay vì dấu nháy kép.
+quoteProps: as-needed # Chỉ thêm dấu nháy nếu cần thiết.
+trailingComma: none # Không thêm dấu phẩy cuối.
+singleAttributePerLine: false # Không xuống dòng mỗi thuộc tính trong JSX.
+htmlWhitespaceSensitivity: css # Định dạng khoảng trắng HTML theo CSS.
+proseWrap: preserve # Bảo toàn định dạng văn bản.
+insertPragma: false # Không chèn pragma vào đầu file.
+printWidth: 200 # Giới hạn chiều dài dòng.
+requirePragma: false # Không yêu cầu pragma khi format.
+tabWidth: 2 # Số lượng ký tự cho mỗi tab.
+useTabs: true # Sử dụng tab thay vì dấu cách.
+embeddedLanguageFormatting: auto # Tự động format ngôn ngữ nhúng.
+cursorOffset: -1 # Giữ nguyên vị trí con trỏ.
