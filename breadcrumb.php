@@ -1,4 +1,5 @@
 <?php include( get_template_directory() . '/breadcrumb.php' ); ?>
+
 <ul class="breadcrumb">
     <li>
         <a class="" title="Xem Phim" href="/">
@@ -26,7 +27,7 @@
         $term = reset($categories); ?>
     <li>
         <a href="<?php echo home_url('/') . (get_option('ophim_slug_categories') ? get_option('ophim_slug_categories') : 'categories') . '/' . $term->slug . '/'; ?>" 
-           title="<?php echo esc_attr($term->name); ?>">
+          title="<?php echo esc_attr($term->name); ?>">
             <span>
                 <?php echo esc_html($term->name); ?>
             </span>
