@@ -47,6 +47,7 @@ add_filter('wpseo_title', function($title) {
     return $title;
 }, 10, 1);
 
+
 // keywords
 add_action("wp_head", function() {
     if (is_singular('ophim')) { // Kiểm tra nếu là trang chi tiết của post type "ophim"
@@ -57,14 +58,15 @@ add_action("wp_head", function() {
 		EOT;
         echo "\n"; // Xuống dòng cho dễ đọc trong source HTML
     } else if(is_front_page()) {
-		echo '<meta name ="keywords" content="motchill, motchill tv motchill vip"' . "\n";
-	} elseif (is_tax(['ophim_categories', 'ophim_directors', 'ophim_years', 'ophim_actors', 'ophim_regions', 'ophim_genres'])) { 
+		echo '<meta name="keywords" content="motchill, motchill tv, motchill vip"/>' . "\n";
+
+	} else if (is_tax(['ophim_categories', 'ophim_directors', 'ophim_years', 'ophim_actors', 'ophim_regions', 'ophim_genres'])) { 
         // Nếu là trang taxonomy (danh mục, đạo diễn, năm, diễn viên, khu vực, thể loại)
         $tag_title = single_tag_title('', false);
-        echo <<<HTML
+        echo <<<EOT
 		<meta name="keywords" content="{$tag_title} motchill"/>
-		HTML;
- echo "\n";
+		EOT;
+ 		echo "\n";
     }
 },2);
 
