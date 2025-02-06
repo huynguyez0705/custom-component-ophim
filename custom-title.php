@@ -20,7 +20,7 @@ add_filter( 'rank_math/frontend/description', function( $des ) {
     if ( function_exists('isEpisode') && isEpisode() ) {
         $post_title = get_the_title(get_the_ID());
         $episode = function_exists('episodeName') ? episodeName() : '';
-        $ex = get_the_excerpt();
+         $ex = wp_trim_words(get_the_excerpt(), 100, '...');
         $new_des = "Xem {$post_title} Tập {$episode}. {$ex} ";
         return $new_des;
     }
@@ -30,7 +30,6 @@ add_filter( 'rank_math/frontend/description', function( $des ) {
 
 
 // Yoast seo
-
 add_filter('wpseo_title', function($title) {
     if (isEpisode()) {
         $post_title = get_the_title(get_the_ID());
@@ -54,9 +53,18 @@ add_action("wp_head", function() {
         $title = get_the_title(get_the_ID());
         $ori_title = function_exists('op_get_original_title') ? op_get_original_title() : '';
         echo <<<EOT
-		<meta name="keywords" content="{$title}, {$ori_title}"/>
+		<meta name="keywords" content="{$title} motchill, {$ori_title} motchill"/>
 		EOT;
         echo "\n"; // Xuống dòng cho dễ đọc trong source HTML
+    } else if(is_front_page()) {
+		echo '<meta name ="keywords" content="motchill, motchill tv motchill vip"' . "\n";
+	} elseif (is_tax(['ophim_categories', 'ophim_directors', 'ophim_years', 'ophim_actors', 'ophim_regions', 'ophim_genres'])) { 
+        // Nếu là trang taxonomy (danh mục, đạo diễn, năm, diễn viên, khu vực, thể loại)
+        $tag_title = single_tag_title('', false);
+        echo <<<HTML
+		<meta name="keywords" content="{$tag_title} motchill"/>
+		HTML;
+ echo "\n";
     }
 },2);
 
