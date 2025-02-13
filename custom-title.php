@@ -31,20 +31,19 @@ add_filter( 'rank_math/frontend/description', function( $des ) {
 
 // Yoast seo
 add_filter('wpseo_title', function($title) {
-    if (isEpisode()) {
-        $post_title = get_the_title(get_the_ID());
-        $year = op_get_year(get_the_ID());
-        $lang = op_get_lang(get_the_ID());
-        $quality = op_get_quality(get_the_ID());
-        $episode = episodeName();
-	$ori_title = op_get_original_title();
-
-        // Tạo tiêu đề bằng nội suy chuỗi
-        $custom_title = "Xem phim {$post_title} ({$year}) - {$lang} {$quality} - Tập {$episode} | HHKUNGFU";
-
-        return $custom_title;
-    }
-    return $title;
+	if (is_admin()) {
+		return $title;  
+	}if (isEpisode()) {
+		$post_title = get_the_title(get_the_ID());
+		$year = op_get_year(get_the_ID());
+		$lang = op_get_lang(get_the_ID());
+		$quality = op_get_quality(get_the_ID());
+		$episode = episodeName();
+		$ori_title = op_get_original_title();
+		$custom_title = "Xem phim {$post_title} ({$year}) - {$lang} {$quality} - Tập {$episode} | HHKUNGFU";
+		return $custom_title;
+	}
+	return $title;
 }, 10, 1);
 
 

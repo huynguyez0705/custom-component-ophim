@@ -71,11 +71,11 @@ function wisdom_filter_tracked_plugins()
     global $typenow;
     if ($typenow == 'ophim') {
         $current_plugin = oIsset($_GET,'featured');?>
-        <select name="featured" id="featured">
-            <option value="all" <?php selected('all', $current_plugin); ?>>All</option>
-            <option value="1" <?php selected('1', $current_plugin); ?>>Featured</option>
-        </select>
-    <?php }
+<select name="featured" id="featured">
+    <option value="all" <?php selected('all', $current_plugin); ?>>All</option>
+    <option value="1" <?php selected('1', $current_plugin); ?>>Featured</option>
+</select>
+<?php }
 }
 
 add_action('restrict_manage_posts', 'wisdom_filter_tracked_plugins');
