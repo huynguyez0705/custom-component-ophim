@@ -1,50 +1,40 @@
 <?php
 
-// rankmath
 
-add_filter('rank_math/frontend/title', function($title) {
+function custom_seo_title($title) {
+    if (is_admin()) {
+        return $title;  
+    } 
     if (isEpisode()) {
-        return sprintf(
-            'Xem phim %s (%s)- %s %s - Tập %s | HHKUNGFU',
-            get_the_title(get_the_ID()),
-	        op_get_year(get_the_ID()),
-            op_get_lang(get_the_ID()),
-            op_get_year(get_the_ID()),
-            op_get_quality(get_the_ID()),
-            episodeName()
-        );
+        $post_title = get_the_title(get_the_ID());
+        $year = op_get_year(get_the_ID());
+        $lang = op_get_lang(get_the_ID());
+        $quality = op_get_quality(get_the_ID());
+        $episode = episodeName();
+        $ori_title = op_get_original_title();
+        return "Xem phim {$post_title} ({$ori_title}) - {$lang} {$quality} - Tập {$episode} - Motchill";
     }
     return $title;
-}, 10, 1);
-add_filter( 'rank_math/frontend/description', function( $des ) {
-    if ( function_exists('isEpisode') && isEpisode() ) {
+}
+
+
+function custom_seo_description($desc) {
+    if (function_exists('isEpisode') && isEpisode()) {
         $post_title = get_the_title(get_the_ID());
         $episode = function_exists('episodeName') ? episodeName() : '';
-         $ex = wp_trim_words(get_the_excerpt(), 100, '...');
-        $new_des = "Xem {$post_title} Tập {$episode}. {$ex} ";
-        return $new_des;
+        $ex = wp_trim_words(get_the_excerpt(), 100, '...');
+        return "Xem {$post_title} Tập {$episode}. {$ex}";
     }
-    return $des;
-}, 10, 1 );
-
-
-
-// Yoast seo
-add_filter('wpseo_title', function($title) {
-	if (is_admin()) {
-		return $title;  
-	}if (isEpisode()) {
-		$post_title = get_the_title(get_the_ID());
-		$year = op_get_year(get_the_ID());
-		$lang = op_get_lang(get_the_ID());
-		$quality = op_get_quality(get_the_ID());
-		$episode = episodeName();
-		$ori_title = op_get_original_title();
-		$custom_title = "Xem phim {$post_title} ({$year}) - {$lang} {$quality} - Tập {$episode} | HHKUNGFU";
-		return $custom_title;
-	}
-	return $title;
-}, 10, 1);
+    return $desc;
+}
+//yoast seo
+add_filter('wpseo_title', 'custom_seo_title', 10, 1);
+add_filter('wpseo_opengraph_title', 'custom_seo_title', 10, 1);
+add_filter('wpseo_metadesc', 'custom_seo_description', 10, 1);
+add_filter('wpseo_opengraph_desc', 'custom_seo_description', 10, 1);
+//rankmath
+add_filter('rank_math/frontend/title', 'custom_seo_title', 10, 1);
+add_filter('rank_math/frontend/description', 'custom_seo_description', 10, 1);
 
 
 // keywords
