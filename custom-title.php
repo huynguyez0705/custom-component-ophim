@@ -36,39 +36,23 @@ add_filter('rank_math/frontend/description', 'custom_seo_description', 10, 1);
 
 // keywords
 add_action("wp_head", function() {
-    if (is_singular('ophim')) { // Kiểm tra nếu là trang chi tiết của post type "ophim"
+    $keywords = '';
+    if (is_singular('ophim')) { 
+        // Trang chi tiết của post type "ophim"
         $title = get_the_title(get_the_ID());
         $ori_title = function_exists('op_get_original_title') ? op_get_original_title() : '';
-        echo <<<EOT
-		<meta name="keywords" content="{$title} motchill, {$ori_title} motchill"/>
-		EOT;
-        echo "\n"; // Xuống dòng cho dễ đọc trong source HTML
-    } else if(is_front_page()) {
-		echo '<meta name="keywords" content="motchill, motchill tv, motchill vip"/>' . "\n";
-
-	} else if (is_tax(['ophim_categories', 'ophim_directors', 'ophim_years', 'ophim_actors', 'ophim_regions', 'ophim_genres'])) { 
-        // Nếu là trang taxonomy (danh mục, đạo diễn, năm, diễn viên, khu vực, thể loại)
-        $tag_title = single_tag_title('', false);
-        echo <<<EOT
-		<meta name="keywords" content="{$tag_title} motchill"/>
-		EOT;
- 		echo "\n";
+        $keywords = "{$title} Phimmoi, {$ori_title} Phimmoi";
+    } elseif (is_front_page()) {
+        $keywords = "Phimmoi, Phim Mới, Phimmoi net, Phim Trung Quốc, Phim Hàn Quốc, Phim chiếu rạp, Phim hành động, Phim kinh di, Phim hài, Phim hoạt hình, Phim Mỹ, Phim Võ Thuật, Phim bộ hay nhất, Xem phim Online";
+    } elseif (is_tax(['ophim_categories', 'ophim_directors', 'ophim_years', 'ophim_actors', 'ophim_regions', 'ophim_genres'])) { 
+         $keywords = single_tag_title('', false) . " Phimmoi";
+    }elseif (is_archive()) {
+        $keywords = "Kho phim mới Phimmoi";
+    } 
+    
+    if ($keywords) {
+        echo "<meta name=\"keywords\" content=\"{$keywords}\" />\n";
     }
-},2);
+}, 2);
 
-
-// op_get_year
-function op_get_year($end ='')
-{
-    $html = "";
-    $years = get_the_terms(get_the_ID(), "ophim_years");
-    if (is_array($years)) {
-        foreach ($years as $y) {
-            if (preg_match('/^\d{4}$/', $y->name)) {
-                $html .= $y->name . $end; // Nối năm với $end nếu có
-            }
-        }
-    }
-    return $html;
-}
 ?>
