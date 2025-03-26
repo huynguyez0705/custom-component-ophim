@@ -9,7 +9,7 @@ $video_m3u8_url = m3u8EpisodeUrl(); // URL m3u8 video
   "@context": "https://schema.org",
   "@type": "Movie",
   "name": "<?php the_title(); ?> - Tập <?= episodeName(); ?>",
-  "description": "<?php echo esc_html(get_the_excerpt(20)); ?>",
+  "description": "<?php echo wp_strip_all_tags(get_the_excerpt()); ?>"
   "image": "<?= esc_url(op_get_poster_url()); ?>",
   "datePublished": "<?= esc_html(op_get_year()); ?>",
   "dateCreated": "<?= get_the_date('Y-m-d'); ?>",
@@ -52,7 +52,7 @@ $video_m3u8_url = m3u8EpisodeUrl(); // URL m3u8 video
   "video": {
     "@type": "VideoObject",
     "name": "<?php the_title(); ?> - Tập <?= episodeName(); ?>",
-    "description": "<?php echo esc_html(get_the_excerpt(20)); ?>",
+     "description": "<?php echo wp_trim_words(get_the_excerpt(), 30, '...'); ?>",
     "thumbnailUrl": "<?= esc_url(op_get_thumb_url()); ?>",
     "uploadDate": "<?= get_the_date('c'); ?>",
     "contentUrl": "<?= esc_url($video_m3u8_url); ?>",

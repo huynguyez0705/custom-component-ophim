@@ -17,5 +17,5 @@
 .notice.warning{background-color:#fffaf0;border-color:#fff1cc;color:#856404}
 .notice.success{background-color:#f3fdf7;border-color:#d8f3e0;color:#155724}
 .notice.error{background-color:#fdf2f3;border-color:#f6d8da;color:#721c24}
-.notice.info{background-color:#f0f8ff;border-color:#cce7ff;color:#004085}
-</style>
+.notice.info{background-color:#d9edf7;border-color:#bce8f1;color:#31708f}s
+<style>

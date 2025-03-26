@@ -1,4 +1,7 @@
-// Lấy tất cả các thẻ a trong phần tử có class .item-title
-const itemTitles = document.querySelectorAll('.sw-item')
+const customButton = document.querySelector('#page-info a.custom-button')
 
-console.log(itemTitles)
+customButton ? (document.querySelector('#page-info .poster .adspruce-streamlink') ? (document.querySelector('#page-info .poster .adspruce-streamlink').style.maxHeight = '350px') : null) : null
+function markPopupAsOpened(deviceType, index) {
+    localStorage.setItem("popupOpenedTime", Date.now());
+    localStorage.setItem(popupIndex_$ư{deviceType}, index);
+}
