@@ -22,25 +22,15 @@ add_filter('wpseo_canonical', function($canonical) {
 ;
 });
 
+//prev and next
 function custom_pagination_next_prev() {
-    if ( is_tax() ) { // Kiểm tra nếu đang ở trang taxonomy
+    if (is_tax()) {
         global $wp_query;
-        
-        $paged = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+        $paged = max(1, get_query_var('paged'));
         $max_page = $wp_query->max_num_pages;
-
-        if ( $paged < $max_page ) {
-            $next_page = $paged + 1;
-            $next_url = get_pagenum_link( $next_page );
-            echo '<link rel="next" href="' . esc_url( $next_url ) . '" />' . "\n";
-        }
-
-        if ( $paged > 1 ) {
-            $prev_page = $paged - 1;
-            $prev_url = get_pagenum_link( $prev_page );
-            echo '<link rel="prev" href="' . esc_url( $prev_url ) . '" />' . "\n";
-        }
+        if ($paged < $max_page) echo '<link rel="next" href="' . esc_url(get_pagenum_link($paged + 1)) . '" />' . "\n";
+        if ($paged > 1) echo '<link rel="prev" href="' . esc_url(get_pagenum_link($paged - 1)) . '" />' . "\n";
     }
 }
-add_action( 'wp_head', 'custom_pagination_next_prev' );
+add_action('wp_head', 'custom_pagination_next_prev', 2);
 
