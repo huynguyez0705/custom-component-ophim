@@ -5,7 +5,7 @@
         Ví dụ tìm phim 
         <strong><?php echo get_the_title(); ?></strong>, các bạn tìm là 
         <span class= "notice-domain"><strong><a  href="<?php echo get_permalink(get_the_ID()); ?>"><?php echo get_the_title(); ?></a>
-        <a href="<?php echo home_url(); ?>">Motchill</a> </strong></span> bạn xem không giật lag và không quảng cáo.
+        <a href="<?php echo get_permalink(); ?>">Subnhanh</a> </strong></span> Tại Website này bạn xem không giật lag và không quảng cáo..
     </p>
 </div>
 <div class="notice">

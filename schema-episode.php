@@ -45,7 +45,7 @@ $trailer_embed_url = $trailer_url && ($video_id = (parse_str(parse_url($trailer_
     "interactionStatistic": {
       "@type": "InteractionCounter",
       "interactionType": "https://schema.org/WatchAction",
-      "userInteractionCount": "<?= esc_html(op_get_rating_count() ?>"
+      "userInteractionCount": "<?= esc_html(op_get_rating_count()); ?>"
     }
   }
 }

@@ -58,3 +58,4 @@ $movie = [
     ]
 }
 </script>
+<?php endif; ?>
