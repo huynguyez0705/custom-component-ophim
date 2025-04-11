@@ -1,3 +1,4 @@
+<?php include( get_template_directory() . '/breadcrumb.php' ); ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <ul class="breadcrumb-pm">
     <li><a title="Xem Phim" href="/"><i class="fa fa-home"></i> Phimmoi</a></li>
