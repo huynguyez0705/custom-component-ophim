@@ -51,7 +51,7 @@
 {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "@id":"https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '",	
+    "@id": "https://<?php echo esc_url($_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>#breadcrumb",
     "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Motchill", "item": "<?= esc_url(home_url()); ?>"},
         <?php
