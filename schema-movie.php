@@ -6,7 +6,17 @@ if (op_get_trailer_url()) {parse_str(parse_url($trailer_url, PHP_URL_QUERY), $my
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Movie",
+"@type": "<?php 
+    $meta_formality = get_post_meta(get_the_ID(), 'ophim_movie_formality', true);
+    $categories = get_the_terms(get_the_ID(), 'ophim_categories');
+    $is_phim_bo = $categories && in_array('Phim bộ', wp_list_pluck($categories, 'name'));
+    
+    if ($meta_formality === 'tv_series' && $is_phim_bo && get_post_type() === 'ophim') {
+        echo 'TVSeries';
+    } else {
+        echo 'Movie';
+    }
+?>",
   "name": "Phim <?= esc_html(get_the_title()); ?> - <?= op_get_original_title() ?> <?= op_get_year () ?> <?= op_get_lang() ?> <?=op_get_quality() ?> - SubNhanh",
   "description": "<?= esc_html(wp_strip_all_tags(wp_trim_words(get_the_content(), 20))); ?>",
   "image": "<?= esc_url(op_get_thumb_url()); ?>",
