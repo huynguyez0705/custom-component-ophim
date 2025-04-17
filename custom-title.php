@@ -37,15 +37,17 @@ add_filter('rank_math/frontend/description', 'custom_seo_description', 10, 1);
 // keywords
 add_action("wp_head", function() {
     $keywords = '';
-    if (is_singular('ophim')) { 
-        // Trang chi tiết của post type "ophim"
-        $title = get_the_title(get_the_ID());
-        $ori_title = function_exists('op_get_original_title') ? op_get_original_title() : '';
-        $keywords = "{$title} Phimmoi, {$ori_title} Phimmoi";
+    $title = get_the_title(get_the_ID());
+    $ori_title = function_exists('op_get_original_title') ? op_get_original_title() : '';
+    $episode = function_exists('episodeName') ? episodeName() : '';
+    $domain ="Phimmoi";
+    if(isEpisode()){$keywords = "{$title} - Tập {$episode} {$domain}, {$ori_title} - Tập {$episode} {$domain}";}
+    if (is_singular('ophim')) {      
+        $keywords = "{$title}  {$domain}, {$ori_title}  {$domain}";
     } elseif (is_front_page()) {
         $keywords = "Phimmoi, Phim Mới, Phimmoi net, Phim Trung Quốc, Phim Hàn Quốc, Phim chiếu rạp, Phim hành động, Phim kinh di, Phim hài, Phim hoạt hình, Phim Mỹ, Phim Võ Thuật, Phim bộ hay nhất, Xem phim Online";
     } elseif (is_tax(['ophim_categories', 'ophim_directors', 'ophim_years', 'ophim_actors', 'ophim_regions', 'ophim_genres'])) { 
-         $keywords = single_tag_title('', false) . " Phimmoi";
+         $keywords = single_tag_title('', false) . "  {$domain}";
     }elseif (is_archive()) {
         $keywords = "Kho phim mới Phimmoi";
     } 
