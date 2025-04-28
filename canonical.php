@@ -1,3 +1,5 @@
+
+<?php 
 // Thay đổi URL của thẻ og:url do Rankmath  tự động tạo
 add_filter( 'rank_math/frontend/canonical', function( $canonical ) {
     if ( ( is_singular( 'ophim' ) ) || ( function_exists( 'isEpisode' ) && isEpisode() ) ) {
@@ -12,10 +14,10 @@ add_filter( 'rank_math/opengraph/url', function( $url ) {
 
 // Thay đổi URL của thẻ og:url do Yoast SEO tự động tạo
 add_filter('wpseo_opengraph_url', function($og_url) {
-     return 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    return 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 });
 add_filter('wpseo_canonical', function($canonical) {
-         if ( ( is_singular( 'ophim' ) ) || ( function_exists( 'isEpisode' ) && isEpisode() ) ) {
+        if ( ( is_singular( 'ophim' ) ) || ( function_exists( 'isEpisode' ) && isEpisode() ) ) {
         return 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
     return $canonical;
