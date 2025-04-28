@@ -19,8 +19,9 @@ function custom_seo_description($desc) {
     if (function_exists('isEpisode') && isEpisode()) {
         $post_title = get_the_title(get_the_ID());
         $episode = function_exists('episodeName') ? episodeName() : '';
-        $ex = wp_trim_words(get_the_excerpt(), 100, '...');
-        return "Xem Phim {$post_title} Tập {$episode}. {$ex}";
+        $ex = get_the_excerpt();
+        $new_des = "Xem Phim {$post_title} Tập {$episode} - MotPhim. {$ex} ";
+        $new_des = mb_substr($new_des, 0, 130, 'UTF-8') . '...';
     }
     return $desc;
 }
