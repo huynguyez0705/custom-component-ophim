@@ -22,6 +22,7 @@ function custom_seo_description($desc) {
         $ex = get_the_excerpt();
         $new_des = "Xem Phim {$post_title} Tập {$episode} - MotPhim. {$ex} ";
         $new_des = mb_substr($new_des, 0, 130, 'UTF-8') . '...';
+        return $new_des;
     }
     return $desc;
 }
