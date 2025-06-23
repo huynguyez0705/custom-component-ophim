@@ -2,7 +2,7 @@
 $current_url = home_url($_SERVER['REQUEST_URI']);
 $trailer_url = op_get_trailer_url();
 $trailer_embed_url = $trailer_url && ($video_id = (parse_str(parse_url($trailer_url, PHP_URL_QUERY), $vars) ?: $vars['v'] ?? null)) ? "https://www.youtube.com/embed/{$video_id}" : null;
-
+$domain = "PhimMoiChill"; 
 ?>
 
 <script type="application/ld+json">
@@ -57,6 +57,7 @@ $trailer_embed_url = $trailer_url && ($video_id = (parse_str(parse_url($trailer_
       "interactionType": "https://schema.org/WatchAction",
       "userInteractionCount": "<?= esc_html(op_get_rating_count()); ?>"
     }
-  }
+  },
+  "keywords": [<?php $tags = get_the_terms(get_the_ID(), 'ophim_tags'); if (is_array($tags) && !empty($tags)) { $tag_names = array_unique(array_map(fn($tag) => '"' . esc_html($tag->name) . ' ' . esc_html($domain) . '"', $tags)); echo implode(',', $tag_names); } else { echo '"Đang cập nhật"'; } ?>]
 }
 </script>
