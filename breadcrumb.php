@@ -1,3 +1,15 @@
+//Remoview schema breadcrumb rankmath
+
+add_filter( 'rank_math/json_ld', function( $data ) {
+if ( isset( $data['breadcrumb'] ) ) {
+unset( $data['breadcrumb'] ); // Remove breadcrumb schema
+}
+return $data;
+});
+
+
+
+
 <?php include( get_template_directory() . '/breadcrumb.php' ); ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <?php
