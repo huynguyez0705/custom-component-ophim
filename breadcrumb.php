@@ -1,7 +1,14 @@
 <?php include( get_template_directory() . '/breadcrumb.php' ); ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<?php
+// Định nghĩa biến cho "Xem Phim"
+$position_1_name = "Xem Phim";
+$position_1_url = home_url(); // Giả sử URL là trang chủ
+?>
+
 <ul class="breadcrumb-pm">
-    <li><a title="Xem Phim" href="/"><i class="fa fa-home"></i> Phimmoi</a></li>
+    <li><a title="<?= $position_1_name ?>" href="<?= $position_1_url ?>"><i class="fa fa-home"></i>
+            <?= $position_1_name ?></a></li>
     <?php 
     if (is_tax()) {
         $taxonomies = [
@@ -37,14 +44,63 @@
 </ul>
 
 <style>
-.breadcrumb-pm{display:flex;list-style:none;padding:1rem;margin:1rem 0;font-size:14px;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.3);font-weight:bold;flex-wrap:wrap;row-gap:2rem;align-items:center;text-transform:uppercase;background:rgba(0,0,0,.5)}
-.breadcrumb-pm li{display:flex;align-items:center}
-.breadcrumb-pm li + li::before{content:"\f0da";margin:0 8px;color:var(--color);font-size:18px;font-family:"Font Awesome 5 Free"}
-.breadcrumb-pm a{text-decoration:none;color:#fff!important;transition:color 0.2s}
-.breadcrumb-pm a:hover{color:var(--hover)!important}
-.breadcrumb-pm .breadcrumb_last{color:#ddd!important}
-.breadcrumb-pm i{margin-right:5px;color:var(--color)}
-@media (max-width:768px){.breadcrumb-pm{font-size:14px}.breadcrumb-pm li + li::before{margin:0 5px}}
+.breadcrumb-pm {
+    display: flex;
+    list-style: none;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 14px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    flex-wrap: wrap;
+    row-gap: 2rem;
+    align-items: center;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, .5)
+}
+
+.breadcrumb-pm li {
+    display: flex;
+    align-items: center
+}
+
+.breadcrumb-pm li+li::before {
+    content: "\f0da";
+    margin: 0 8px;
+    color: var(--color);
+    font-size: 18px;
+    font-family: "Font Awesome 5 Free"
+}
+
+.breadcrumb-pm a {
+    text-decoration: none;
+    color: #fff !important;
+    transition: color 0.2s
+}
+
+.breadcrumb-pm a:hover {
+    color: var(--hover) !important
+}
+
+.breadcrumb-pm .breadcrumb_last {
+    color: #ddd !important
+}
+
+.breadcrumb-pm i {
+    margin-right: 5px;
+    color: var(--color)
+}
+
+@media (max-width:768px) {
+    .breadcrumb-pm {
+        font-size: 14px
+    }
+
+    .breadcrumb-pm li+li::before {
+        margin: 0 5px
+    }
+}
 </style>
 
 <script type="application/ld+json">
@@ -52,8 +108,12 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "@id": "https://<?php echo esc_url($_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>#breadcrumb",
-    "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Motchill", "item": "<?= esc_url(home_url()); ?>"},
+    "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "<?= $position_1_name ?>",
+            "item": "<?= esc_url(home_url()); ?>"
+        },
         <?php
         if (is_tax()) {
             $taxonomies = [
