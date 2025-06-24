@@ -1,3 +1,4 @@
+<?php
 function disable_redirect_guess_404_permalink( $redirect_url ) {
 if ( is_404() ) {
     return false;
@@ -31,3 +32,7 @@ add_filter( 'rank_math/redirection/do_redirect', 'disable_redirect_on_404', 10, 
 remove_action( 'template_redirect', 'wp_old_slug_redirect');
 remove_action( 'post_updated', 'wp_check_for_changed_slugs', 12, 3 );
 remove_filter('template_redirect', 'redirect_canonical');
+
+
+
+?>
