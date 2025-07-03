@@ -43,7 +43,7 @@ $position_1_url = home_url(); // Giả sử URL là trang chủ
         $categories = get_the_terms(get_the_ID(), 'ophim_categories');
         if (!empty($categories) && !is_wp_error($categories)) {
             $term = reset($categories);
-            echo '<li><a href="' . esc_url(home_url('/') . (get_option('ophim_slug_categories', 'categories')) . '/' . $term->slug . '/') . '" title="' . esc_attr($term->name) . '"><span>' . esc_html($term->name) . '</span></a></li>';
+            echo '<li><a href="' . esc_url(home_url('/') . (get_option('ophim_slug_categories', 'categories')) . '/' . $term->slug) . '" title="' . esc_attr($term->name) . '"><span>' . esc_html($term->name) . '</span></a></li>';
         }
         if (isEpisode()) {
             echo '<li><a href="' . esc_url(get_the_permalink()) . '" title="' . esc_attr(get_the_title()) . '"><span>' . esc_html(get_the_title()) . '</span></a></li>';
@@ -148,7 +148,7 @@ $position_1_url = home_url(); // Giả sử URL là trang chủ
             $categories = get_the_terms(get_the_ID(), 'ophim_categories');
             if (!empty($categories) && !is_wp_error($categories)) {
                 $term = reset($categories);
-                echo '{"@type": "ListItem", "position": 2, "name": "' . esc_html($term->name) . '", "item": "' . esc_url(home_url('/') . (get_option('ophim_slug_categories', 'categories')) . '/' . $term->slug . '/') . '"}';
+                echo '{"@type": "ListItem", "position": 2, "name": "' . esc_html($term->name) . '", "item": "' . esc_url(home_url('/') . (get_option('ophim_slug_categories', 'categories')) . '/' . $term->slug) . '"}';
             }
             if (isEpisode()) {
                 echo ',{"@type": "ListItem", "position": 3, "name": "' . esc_html(get_the_title()) . '", "item": "' . esc_url(get_the_permalink()) . '"}';
