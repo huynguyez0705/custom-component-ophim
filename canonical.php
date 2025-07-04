@@ -1,8 +1,7 @@
-
 <?php 
 // Thay đổi URL của thẻ og:url do Rankmath  tự động tạo
 add_filter( 'rank_math/frontend/canonical', function( $canonical ) {
-    if ( ( is_singular( 'ophim' ) ) || ( function_exists( 'isEpisode' ) && isEpisode() ) ) {
+    if ( function_exists( 'isEpisode' ) && isEpisode() ) {
         return 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
     return $canonical;
@@ -35,4 +34,3 @@ function custom_pagination_next_prev() {
     }
 }
 add_action('wp_head', 'custom_pagination_next_prev', 2);
-
