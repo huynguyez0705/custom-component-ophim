@@ -13,13 +13,14 @@
 -- Divide the content into clearly structured sections with main and subheadings (H1, H2, H3, H4).
 -- Use only one unique H1 for the main title. Write an engaging introduction without keyword stuffing. Write a short paragraph containing the main keyword and secondary keywords. Highlight the main keyword in bold.
 -- Integrate the primary and related keywords naturally and flexibly.
--- "After each H2 heading, add a natural transition sentence leading into H3."
+-- "Make sure After each H2 heading, add a natural transition sentence leading into H3."
 -- Provide information sourced from reputable, trustworthy sources with clear citations.
 -- Optimize keyword density below 2% for both primary and secondary keywords. Ensure readability through short and clear paragraphs.
 -- Include an FAQ section at the end related to the topic. Provide a concise conclusion encouraging reader action.
 -- Create image captions (in italics). **1 caption**
 -- Bold in main keyword, and name Movie, and Heading
 -- Tone: [e.g., friendly, inspirational], suitable for [audience, e.g., students]
+-- Make sure to include the game from Episode 1
 
 
 ##I need you to Write an SEO-optimized blog post (about 1000 to 2000 words) me a Review based on the content of this movie with the goal of optimizing search engines and complying with the E-A-T principles (Expertise, Authoritativeness, Trustworthiness). The article needs to have the following elements:
