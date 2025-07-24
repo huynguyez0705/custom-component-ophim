@@ -33,13 +33,13 @@ if ( !isset( $_SERVER['HTTPS'] ) ) {
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 
-define('DB_NAME', 'admin_motphimchilllove');
+define('DB_NAME', 'admin_motphimchillday');
 
 /** Database username */
-define('DB_USER', 'admin_wp_raoc9');
+define('DB_USER', 'admin_wp_wkbes');
 
 /** Database password */
-define('DB_PASSWORD', '%OshotfnOQgz11$9');
+define('DB_PASSWORD', '!65^g2X_qSBMZTk2');
 
 /** Database hostname */
 define('DB_HOST', 'localhost:3306');
@@ -61,14 +61,14 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-define('AUTH_KEY', '5%~(#l0]x9gHSEh~]1~MLoKxQd99Xr]R:-0]ft]jp;6r[4ZB!24AU;1[5F/0+(TH');
-define('SECURE_AUTH_KEY', 'E7;~:05#Lhdtn:53J93/0-_O2mmLD68b)5nOSdm43c_0Kv*+d8Q@N%Z763MSZtd/');
-define('LOGGED_IN_KEY', '9w99ZkE3V086CCn(~:A3JK3L[QMd7f+Z10czwLARsGC&N(cd;/&7F]slGb8C/8;7');
-define('NONCE_KEY', 'ggm1yRq_[4h8m6NT|D@L-Z998I8&h2QHQ1UIio/Q)43cyz&EAy8-I~Z|wTd:zkc(');
-define('AUTH_SALT', 'pV6c5a5g0t6L&7JX18Lq%*S5*&pBG9jUjr9Bhd7H@4rVLC1)g/A9:u:W7s8LT4|J');
-define('SECURE_AUTH_SALT', 'V6XNf-eCK+~3NBX8!7ciI1r;BIS[x8h35-*(vRT;l7MK3c94i%I615k38-YKx8F4');
-define('LOGGED_IN_SALT', 'T#Mf[#16])N6)so%HMU_H~:3gkT*m[#f0/*ME0I4|0*@Dsgk]wU6gu*:)ccjQ%JD');
-define('NONCE_SALT', '9mBV%Brupe!57TNP9HZCx262GGT#/TW5I@J4k@1+S/~8(!Im4KK*67P|ddH9xgo[');
+define('AUTH_KEY', 'K[)V!dGng*nL*6]t(k8v@i7ceO!Wg/EN/q@o5JYNLs/4v]Ar2V66L#)6AD[pZ&_D');
+define('SECURE_AUTH_KEY', '7!4qDI-2uJu:|I8+]ZWcp%QVIc2b:82tF!UvL2@4|hgn23W*WC@[32@X3FZ[6AU1');
+define('LOGGED_IN_KEY', 'ur4l[8&bD39wO%)QtSZM!N3p7FJ3hJ9H_7G[8t#@)@]nSz/qAelDJg_P1ARQ5L6J');
+define('NONCE_KEY', 'Sq4q#1Dn8:2#Y+I9+U_0h4K(n-0T4X8J:h_c;PG2+T81)CkV9J8Z9V|ua45:Y1t3');
+define('AUTH_SALT', '9):+|P]#it|]qg|39_*L19[I4i2CzOn4Uxx4CB9vP39Q9i[14*%:qsVks8X2|di9');
+define('SECURE_AUTH_SALT', 'f0f~|0yVF(lhc_+&kp7*89nRmH_78Ej2;~4/V/4L!P63-fv[)K!_R8IaGwP;D139');
+define('LOGGED_IN_SALT', 'uY89+1lvc&+O@49v0b9)4Yv131wML@4t70@2/DZ)%[;-]9/0*p3[7SbV_:t0jsU[');
+define('NONCE_SALT', 'QO4c!)S)0+Y8(Z+U!G-ZsK1tW~c&3B52;6a3IpM4*l5|m6zljGN10-/88R;St282');
 
 
 /**#@-*/
@@ -86,6 +86,9 @@ $table_prefix = 'gfNxY_';
 
 define('WP_ALLOW_MULTISITE', true);
 
+// if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+//   wp_die( '0', 400 );
+// }
 // Định nghĩa WP_DEBUG trước
 if ( ! defined( 'WP_DEBUG' ) ) {
     define( 'WP_DEBUG', false );
@@ -94,9 +97,7 @@ if ( ! defined( 'WP_DEBUG' ) ) {
 }
 
 
-// if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-//   wp_die( '0', 400 );
-// }
+
 /**
  * For developers: WordPress debugging mode.
  *
@@ -111,7 +112,8 @@ if ( ! defined( 'WP_DEBUG' ) ) {
  */
 
 
-define( 'WP_CACHE_KEY_SALT', 'da710c2ad0b39b9f2ede2efd04e39dfd' );
+define( 'WP_CACHE_KEY_SALT', 'de97c0b0efa083af7be419efeb121ddf' );
+define( 'WP_REDIS_PREFIX', 'wp_de97c0b0efa083af7be419efeb121ddf' );
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */

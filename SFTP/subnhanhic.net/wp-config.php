@@ -85,17 +85,7 @@ $table_prefix = 'gfNxY_';
 
 define('WP_ALLOW_MULTISITE', true);
 
-// Định nghĩa WP_DEBUG trước
-if ( ! defined( 'WP_DEBUG' ) ) {
-    define( 'WP_DEBUG', true );
-    define( 'WP_DEBUG_LOG', true ); // Ghi lỗi vào tệp debug.log
-    define( 'WP_DEBUG_DISPLAY', false ); // Không hiển thị lỗi trên giao diện
-}
 
-// Kiểm tra AJAX sau
-if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-    wp_die( '0', 400 );
-}
 /**
  * For developers: WordPress debugging mode.
  *
@@ -108,6 +98,17 @@ if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
+
+if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+  wp_die( '0', 400 );
+}
+
+if ( ! defined( 'WP_DEBUG' ) ) {
+define( 'WP_DEBUG', false );           // Tắt chế độ debug
+define( 'WP_DEBUG_LOG', false );       // Tắt ghi lỗi vào file debug.log
+define( 'WP_DEBUG_DISPLAY', false ); 
+}     // Tắt hiển thị lỗi trên giao diện
+
 
 
 define( 'WP_CACHE_KEY_SALT', '9b6c019f4f6a94c5b063f7eb776972dd' );
