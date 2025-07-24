@@ -1,0 +1,43 @@
+### Write blog post content webs with topic for my website:  'Please write a review article in Vietanme about the movie [*Trò Chơi Con Mực Phần 3 (Squid Game 3)*] (about 1000 to 2000 words) designed for readers to enhance site credibility, following SEO guidelines and adhering to the E-A-T principles (Expertise, Authoritativeness, Trustworthiness). Include these elements:
+***Objective***
+-- Writting SEO for page: (Review).
+-- Topic my website is (All About is Movie "Trò Chơi Con Mực Phần 3 (Squid Game 3)" (2003))
+--  I want to review the movie's episode list.
+***Instructions***
+-- Primary keyword: ["Trò chơi con mực phần 3 tập 1]
+-- Secondary keywords: ("trò chơi con mực phần 3 tập 1, phim trò chơi con mực phần 3 tập 1")
+-- Domain: Djnibc
+-- An appealing meta title, placing the primary keyword at the beginning, and no longer than 60 characters.
+-- A short, engaging meta description (150-160 characters) including the primary keyword.
+-- Provide an outline with headings.
+-- Divide the content into clearly structured sections with main and subheadings (H1, H2, H3, H4).
+-- Use only one unique H1 for the main title. Write an engaging introduction without keyword stuffing. Write a short paragraph containing the main keyword and secondary keywords. Highlight the main keyword in bold.
+-- Integrate the primary and related keywords naturally and flexibly.
+-- "Make sure After each H2 heading, add a natural transition sentence leading into H3."
+-- Provide information sourced from reputable, trustworthy sources with clear citations.
+-- Optimize keyword density below 2% for both primary and secondary keywords. Ensure readability through short and clear paragraphs.
+-- Include an FAQ section at the end related to the topic. Provide a concise conclusion encouraging reader action.
+-- Create image captions (in italics). **1 caption**
+-- Bold in main keyword, and name Movie, and Heading
+-- Tone: [e.g., friendly, inspirational], suitable for [audience, e.g., students]
+-- Make sure to include the game from Episode 1
+
+
+##I need you to Write an SEO-optimized blog post (about 1000 to 2000 words) me a Review based on the content of this movie with the goal of optimizing search engines and complying with the E-A-T principles (Expertise, Authoritativeness, Trustworthiness). The article needs to have the following elements:
+-- Write {Review Movie}
+-- Từ khóa chính: [** Đào Hoa Ánh Giang Sơn Tập 1**] 
+-- Từ khóa phụ (Liên quan) [*đào hoa anh giang sơn, phim đào hoa anh giang sơn, đào hoa anh giang sơn phim*]
+-- An appealing meta title, placing the primary keyword at the beginning, and no longer than 60 characters.
+-- A short, engaging meta description (150-160 characters) including the primary keyword.
+-- Provide an outline with headings.
+-- Divide the content into clearly structured sections with main and subheadings (H1, H2, H3, H4).
+-- Use only one unique H1 for the main title. Write an engaging introduction without keyword stuffing.
+-- Write the 'Sapo' paragraph under the H1 heading. Write a short paragraph containing the main keyword and secondary keywords. Highlight the main keyword in bold.
+-- Integrate the primary and related keywords naturally and flexibly.
+-- "After each H2 heading, add a natural transition sentence leading into H3."
+-- Provide information sourced from reputable, trustworthy sources with clear citations.
+-- Optimize keyword density below 2% for both primary and secondary keywords. Ensure readability through short and clear paragraphs.
+-- Include an FAQ section at the end related to the topic. Provide a concise conclusion encouraging reader action.
+-- Create image captions (in italics). **at least 4 pictures**
+-- Bold in main keyword, and name Movie, Heading
+-- Tone: [e.g., friendly, inspirational], suitable for [audience, e.g., students]

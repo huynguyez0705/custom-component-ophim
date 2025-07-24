@@ -1,26 +1,20 @@
-<div class="desc ah-frame-bg">
-    <div>
-        <h2 class="heading"> Nội dung </h2>
-    </div>
-    <div>
-        <?php if (op_get_showtime_movies()) { ?>
-        <p><strong><span style="color:#FFA500"><?= op_get_showtime_movies() ?> <span></strong></p>
-        <?php } ?>
+<?php
+echo "=== Ví dụ ngoài lề: Hậu tăng trong biểu thức số học ===\n";
 
-        <?php if (op_get_notify()) { ?>
-        <p><strong><span style="color:#FFA500"><?= op_get_notify() ?> <span></strong></p>
-        <?php } ?>
-        <p class="Director">
-            <strong>Đạo diễn:</strong>
-            <?= op_get_directors(10,', ') ?>
-        </p>
-        <p class="Cast">
-            <strong>Diễn viên:</strong>
-            <?= op_get_actors(10,', ') ?>
-        </p>
-        <p class="heading"></p>
-        <div>
-            <p><?php the_content();?></p>
-        </div>
-    </div>
-</div>
+$a = 5;
+// Hậu tăng $a trong biểu thức sẽ trả về giá trị cũ, rồi mới tăng $a lên
+$result = $a++ + 10;  // $a++ trả về 5, nên result = 5 + 10 = 15; sau đó $a → 6
+
+echo "Giá trị được dùng trong phép tính (trước khi tăng): " . ($result - 10) . "\n";  // 5
+echo "Kết quả phép tính (\$a++ + 10): $result\n";                                 // 15
+echo "Giá trị của \$a sau đó: $a\n";                                              // 6
+
+echo "\n=== Ví dụ ngoài lề: Hậu tăng khi truy xuất mảng ===\n";
+
+$colors = ['Đỏ', 'Lục', 'Xanh'];
+$idx = 0;
+// Mỗi lần dùng $idx++, ta lấy phần tử mảng tại chỉ số cũ, sau đó $idx tăng
+echo "Màu đầu tiên: " . $colors[$idx++] . "\n";  // Lấy colors[0] = 'Đỏ', rồi $idx → 1
+echo "Màu thứ hai: " . $colors[$idx++] . "\n";
+echo "Màu thứ hai: " . $colors[$idx++] . "\n";    // Lấy colors[1] = 'Lục', rồi $idx → 2
+echo "Chỉ số hiện tại của \$idx: $idx\n";         // 2
