@@ -100,7 +100,7 @@ define('WP_ALLOW_MULTISITE', true);
  */
 
 if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-  wp_die( '0', 400 );
+    wp_die( '0', 400 );
 }
 
 if ( ! defined( 'WP_DEBUG' ) ) {
