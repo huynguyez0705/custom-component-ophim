@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Ophim Category Manager Plugin
+Plugin Name: Category Manager Plugin
 Description: Manages 'ophim' posts with meta_key 'ophim_lang' containing 'thuyết minh' or 'lồng tiếng' and meta_key 'ophim_featured_post' with value 1, allowing assignment of multiple categories.
 Version:     2.2
-Author:      Cô Cô
+Author:     Dương Quá
 */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -50,20 +50,14 @@ if (!isset($_GET['filter'])) {
                 <select name="filter[years]" form="form-search">
                     <option value="">Tất cả năm</option>
                     <?php
-<<<<<<< HEAD
                     // Lấy danh sách năm, lọc từ 1995 trở lên và sắp xếp giảm dần
-=======
->>>>>>> 49ce0229f02cb54dac79c9f342f7f1a1ccc03158
                     $years = get_terms(array(
                         'taxonomy' => 'ophim_years',
                         'hide_empty' => false,
                         'orderby' => 'name',
                         'order' => 'DESC',
                     ));
-<<<<<<< HEAD
                     // Lọc năm từ 1995 trở lên thủ công
-=======
->>>>>>> 49ce0229f02cb54dac79c9f342f7f1a1ccc03158
                     $filtered_years = array_filter($years, function($year) {
                         return is_numeric($year->name) && $year->name >= 1995;
                     });
@@ -81,11 +75,7 @@ if (!isset($_GET['filter'])) {
                     'ongoing' => 'Đang chiếu',
                     'completed' => 'Hoàn thành',
                 ]; ?>
-<<<<<<< HEAD
                 <select class="form-control" name="filter[status]" form="form-search">
-=======
-                <select name="filter[status]" form="form-search">
->>>>>>> 49ce0229f02cb54dac79c9f342f7f1a1ccc03158
                     <option value="">Tất cả trạng thái</option>
                     <?php foreach($statuses as $slug => $label): ?>
                     <option value="<?php echo $slug; ?>"
@@ -103,11 +93,7 @@ if (!isset($_GET['filter'])) {
                     'views' => 'Lượt xem',
                     'rating' => 'Đánh giá',
                 ]; ?>
-<<<<<<< HEAD
                 <select class="form-control" name="filter[sort]" form="form-search">
-=======
-                <select name="filter[sort]" form="form-search">
->>>>>>> 49ce0229f02cb54dac79c9f342f7f1a1ccc03158
                     <?php foreach($sort_options as $value => $label): ?>
                     <option value="<?php echo $value; ?>"
                         <?php if ($_GET['filter']['sort'] === $value) echo 'selected'; ?>>
@@ -123,11 +109,8 @@ if (!isset($_GET['filter'])) {
                     'Thuyết Minh' => 'Thuyết Minh',
                     'Lồng Tiếng' => 'Lồng Tiếng',
                 ]; ?>
-<<<<<<< HEAD
                 <select class="form-control" name="filter[lang]" form="form-search">
-=======
                 <select name="filter[lang]" form="form-search">
->>>>>>> 49ce0229f02cb54dac79c9f342f7f1a1ccc03158
                     <?php foreach($languages as $value => $label): ?>
                     <option value="<?php echo $value; ?>"
                         <?php if ($_GET['filter']['lang'] === $value) echo 'selected'; ?>>

@@ -85,7 +85,13 @@ $table_prefix = 'gfNxY_';
 
 define('WP_ALLOW_MULTISITE', true);
 
+<<<<<<< HEAD
 
+=======
+if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+  wp_die( '0', 400 );
+}
+>>>>>>> 8244566785abdcfc7ddba0897fa341cc450cf6d7
 /**
  * For developers: WordPress debugging mode.
  *
@@ -98,9 +104,12 @@ define('WP_ALLOW_MULTISITE', true);
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
+<<<<<<< HEAD
 if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
   wp_die( '0', 400 );
 }
+=======
+>>>>>>> 8244566785abdcfc7ddba0897fa341cc450cf6d7
 if ( ! defined( 'WP_DEBUG' ) ) {
 	define( 'WP_DEBUG', false );
 }

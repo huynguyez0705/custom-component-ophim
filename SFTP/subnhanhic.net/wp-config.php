@@ -100,7 +100,11 @@ define('WP_ALLOW_MULTISITE', true);
  */
 
 if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+<<<<<<< HEAD
     wp_die( '0', 400 );
+=======
+  wp_die( '0', 400 );
+>>>>>>> 8244566785abdcfc7ddba0897fa341cc450cf6d7
 }
 
 if ( ! defined( 'WP_DEBUG' ) ) {

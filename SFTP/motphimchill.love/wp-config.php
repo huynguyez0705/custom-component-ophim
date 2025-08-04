@@ -86,6 +86,17 @@ $table_prefix = 'gfNxY_';
 
 define('WP_ALLOW_MULTISITE', true);
 
+<<<<<<< HEAD
+=======
+// Định nghĩa WP_DEBUG trước
+if ( ! defined( 'WP_DEBUG' ) ) {
+    define( 'WP_DEBUG', false );
+    define( 'WP_DEBUG_LOG', false ); // Ghi lỗi vào tệp debug.log
+    define( 'WP_DEBUG_DISPLAY', false ); // Không hiển thị lỗi trên giao diện
+}
+
+
+>>>>>>> 8244566785abdcfc7ddba0897fa341cc450cf6d7
 // if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 //   wp_die( '0', 400 );
 // }
@@ -101,9 +112,13 @@ define('WP_ALLOW_MULTISITE', true);
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
+<<<<<<< HEAD
 if ( ! defined( 'WP_DEBUG' ) ) {
 	define( 'WP_DEBUG', false );
 }
+=======
+
+>>>>>>> 8244566785abdcfc7ddba0897fa341cc450cf6d7
 
 define( 'WP_CACHE_KEY_SALT', 'da710c2ad0b39b9f2ede2efd04e39dfd' );
 /* That's all, stop editing! Happy publishing. */
