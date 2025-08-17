@@ -11,9 +11,10 @@
 {
     "@context": "https://schema.org",
     "@type": "ItemList",
+    "@id": "<?=  esc_url('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>#ItemList",
     "name": "<?= esc_html($term->name); ?>",
     "description": "<?= esc_html($term->description); ?>",
-    "url": "<?= esc_url(get_term_link($term)); ?>",
+    "url": "<?=  esc_url('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>",
     "itemListOrder": "Descending",
     "numberOfItems": "<?= $movies->post_count; ?>",
     "itemListElement": [
