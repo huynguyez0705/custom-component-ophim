@@ -1,4 +1,4 @@
-<?php include( get_template_directory() . '/filter.php' ); ?>
+
 <?php
 if (!isset($_GET['filter'])) {
     $_GET['filter']['categories'] = '';
@@ -10,14 +10,15 @@ if (!isset($_GET['filter'])) {
     $_GET['filter']['lang'] = '';
 }
 ?>
+<form id="searchform" class="form-inline" method="GET" action="/">
 <div class="list-movie-filter SearchMovies" style="margin-bottom: 50px;">
     <div class="list-movie-filter-main">
-        <form id="form-search" class="form-inline" method="GET">
+      
             <!-- Quốc gia -->
             <div class="list-movie-filter-item Form-Group">
                 <label class="AAIco-public <?php echo ($_GET['filter']['regions'] ? 'active' : ''); ?>">Quốc gia</label>
                 <div class="">
-                    <select class="" name="filter[regions]" form="form-search">
+                    <select class="" name="filter[regions]" form="searchform">
                         <option value="">Tất cả quốc gia</option>
                         <?php $regions = get_terms(array('taxonomy' => 'ophim_regions', 'hide_empty' => false,)); ?>
                         <?php foreach($regions as $region) { ?>
@@ -32,7 +33,7 @@ if (!isset($_GET['filter'])) {
             <div class="list-movie-filter-item Form-Group">
                 <label class="AAIco-widgets <?php echo ($_GET['filter']['categories'] ? 'active' : ''); ?>">Loại phim</label>
                 <div class="">
-                    <select class="" name="filter[categories]" form="form-search">
+                    <select class="" name="filter[categories]" form="searchform">
                         <option value="">Mọi định dạng</option>
                         <?php $categories = get_terms(array('taxonomy' => 'ophim_categories', 'hide_empty' => false,)); ?>
                         <?php foreach($categories as $category) { ?>
@@ -47,7 +48,7 @@ if (!isset($_GET['filter'])) {
             <div class="list-movie-filter-item Form-Group">
                 <label class="AAIco-movie_creation <?php echo ($_GET['filter']['genres'] ? 'active' : ''); ?>">Thể loại</label>
                 <div class="">
-                    <select class="" name="filter[genres]" form="form-search">
+                    <select class="" name="filter[genres]" form="searchform">
                         <option value="">Tất cả thể loại</option>
                         <?php $genres = get_terms(array('taxonomy' => 'ophim_genres', 'hide_empty' => false,)); ?>
                         <?php foreach($genres as $genre) { ?>
@@ -62,7 +63,7 @@ if (!isset($_GET['filter'])) {
             <div class="list-movie-filter-item Form-Group">
                 <label class="AAIco-date_range <?php echo ($_GET['filter']['years'] ? 'active' : ''); ?>">Năm phát hành</label>
                 <div class="">
-                    <select class="" name="filter[years]" form="form-search">
+                    <select class="" name="filter[years]" form="searchform">
                         <option value="">Tất cả năm</option>
                         <?php
                         $years = get_terms(array(
@@ -92,7 +93,7 @@ if (!isset($_GET['filter'])) {
                         'ongoing' => 'Đang chiếu',
                         'completed' => 'Hoàn thành',
                     ]; ?>
-                    <select class="" name="filter[status]" form="form-search">
+                    <select class="" name="filter[status]" form="searchform">
                         <option value="">Tất cả trạng thái</option>
                         <?php foreach($statuses as $slug => $label): ?>
                             <option value="<?php echo $slug; ?>" <?php if ($_GET['filter']['status'] === $slug) echo 'selected'; ?>>
@@ -114,7 +115,7 @@ if (!isset($_GET['filter'])) {
                         'views' => 'Lượt xem',
                         'rating' => 'Đánh giá',
                     ]; ?>
-                    <select class="" name="filter[sort]" form="form-search">
+                    <select class="" name="filter[sort]" form="searchform">
                         <?php foreach($sort_options as $value => $label): ?>
                             <option value="<?php echo $value; ?>" <?php if ($_GET['filter']['sort'] === $value) echo 'selected'; ?>>
                                 <?php echo $label; ?>
@@ -134,7 +135,7 @@ if (!isset($_GET['filter'])) {
                         'Thuyết Minh' => 'Thuyết Minh',
                         'Lồng Tiếng' => 'Lồng Tiếng',
                     ]; ?>
-                    <select class="" name="filter[lang]" form="form-search">
+                    <select class="" name="filter[lang]" form="searchform">
                         <?php foreach($languages as $value => $label): ?>
                             <option value="<?php echo $value; ?>" <?php if ($_GET['filter']['lang'] === $value) echo 'selected'; ?>>
                                 <?php echo $label; ?>
@@ -144,8 +145,9 @@ if (!isset($_GET['filter'])) {
                 </div>
             </div>
 
-            <button type="submit" form="form-search" class="btn btn-red btn-filter-movie"><span>Lọc</span></button>
+            <button type="submit" form="searchform" class="btn btn-red btn-filter-movie"><span>Lọc</span></button>
             <div class="clear"></div>
-        </form>
+       
     </div>
 </div>
+</form>
