@@ -1,0 +1,170 @@
+body,
+html {
+	background-color: #02080f;
+}
+.main-content .left-content {width:70%; margin: 0;}
+.main-content .right-content {width:30%}
+#header {
+	background: #333333;
+}
+.main-menu {
+	background: #2d2d2d;
+}
+.main-menu .menu-item.active > a,
+.main-menu .menu-item a:hover {
+	color: #c58560;
+}
+/* filter */
+#form-filter {display:flex; flex-wrap:wrap;margin: 0 0 20px 0}
+#form-filter .filter-item {flex: 1 0 calc(100% / 7  - 5px);}
+.form-filter .filter-item .form-control {width:100% !important; height:40px !important;font-size:14px !important;border-radius: 3px;}
+#form-filter .btn {height:40px;font-size:14px;background:#ff9601;width: 20%;border-radius: 3px;}
+#form-filter .filter-item .form-control#year {width:100% !important;}
+@media (min-width:250px) and (max-width:479px){#form-filter .filter-item{flex:1 0 calc(50% - 5px);margin-bottom: 1rem;}#form-filter .filter-item .form-control#year{width:100%!important}#form-filter .btn{width:100%}}
+
+.title-box .tophot,
+.right-content .block .caption {
+	color: #da966e;
+}
+.main-menu .menu-item .sub-menu {
+	background-color: #2d2d2d;
+}
+
+.list-films .label-quality {
+	background: #522e75;
+}
+.list-films .label-quality:after {
+	border-left: 10px solid #522e75;
+}
+
+.list-film li:nth-child(even) {
+	background: rgb(24 24 24);
+}
+.title-box .tab.active,
+.title-box .tab:hover {
+	color: #da966e;
+	border-bottom: 2px solid #907863;
+}
+.most-view .list-film .item .number-rank {
+	background: #c58560;
+}
+.breadcrumbs {
+	background: #181818;
+}
+
+.btn-download-link {
+}
+.btn-stream-link {
+}
+.dinfo .film-status {
+}
+#page-info .latest-episode > a:hover,
+.list-episode > a:hover,
+.list-episode > a.current,
+ul.server-backup li span.active,
+ul.server-backup li span:hover {
+	background: #c58560;
+}
+#player-video {min-height:unset;margin-bottom:1em}
+#player-video .details .name h1 a,
+#player-video .details .name span {
+	color: #da966e;
+}
+
+.mp-tips {
+	color: #fff;
+}
+#suggestions ul.autocomplete-list li span,
+#suggestions ul.autocomplete-list li strong,
+#suggestions ul.autocomplete-list li.last a {
+	color: #da966e;
+}
+.most-view .list-film .item a:hover,
+.list-film .film-item-ver .name a:hover {
+	color: #da966e;
+}
+.most-view .tabs .tab:hover {
+	background: #333;
+}
+#footer {
+	color: #848484;
+	background: #2d2d2d;
+}
+#footer .info {
+	background: #353535;
+}
+
+
+@media all and (max-width:64em){
+	.main-content .right-content {display:none}
+	.top{display:none}
+	#header{width:100%;position:relative;text-align:center;padding:10px;padding-top:0;height:40px}
+	#header .logo{display:block;text-align:center}
+	#header .logo img{width:120px;height:30px;margin-bottom:0!important}
+	.container{padding:0;width:auto}
+	.main-menu.fix-nav,.main-menu{position:fixed;width:240px;left:-240px;bottom:0;overflow-x:hidden;overflow-y:auto;top:40px;z-index:11;transition:0.3s all}
+	.main-menu.expanded{left:0}
+	.main-menu .menu-item{display:block;float:none;width:100%}
+	.main-menu .menu-item:hover .sub-menu{display:none}
+	.main-menu .menu-item .sub-menu.expanded{display:block;position:inherit}
+	.main-menu .menu-item>a:after{content:'+';float:right;font-size:20px;line-height:13px;color:#fff;margin:2px 5px 0 0}
+	.main-menu .menu-item:first-child a:after{}
+	.main-menu .menu-item>a.active:after{content:'-';font-size:25px}
+	.main-menu .menu-item .sub-menu{width:100%!important}
+	.main-menu .menu-item .sub-menu.span-2 .sub-menu-item,.main-menu .menu-item .sub-menu.span-3 .sub-menu-item{float:none;width:auto}
+	.sub-menu .sub-menu-item a{padding-left:20px}
+	.main-content .left-content{width:100%}
+	.main-menu .menu-item.active>a{background:none}
+	#form_search,#mform_search{position:absolute;top:40px;left:0;right:0;z-index:12;color:#ffffff;border:1px solid #353535;border-radius:5px;padding:5px;font-style:italic;width:100%;background:#202020 linear-gradient(to bottom,#666,#333);outline:none;transition:all 0.3s ease;display:none}
+	#mform_search #mkeyword{background:red;border:none;outline:none;width:90%}
+	#form_search.expanded,#mform_search.expanded{display:block}
+	#film_hot .owl-item .item {width:96%}
+	.btn-humber.active{top:41px;left:310px}
+	.btn-humber p{transition:transform 0.3s,opacity 0.3s}
+	.btn-humber.active p:nth-child(1){transform:translateY(8px) rotate(45deg)}
+	.btn-humber.active p:nth-child(2){opacity:0}
+	.btn-humber.active p:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+}
+h1.title-home {font-size: 20px;text-align: center;color: #da966e;font-weight: 500;}
+a.btn-see.btn.custom-button {color:#000;font-weight:700}
+.btn-see{background:rgb(221, 0, 63);margin:10px 0px 0px;border-radius:6px;width:100%}
+/* Single */
+
+@media (max-width: 979px) {.main-content .left-content {width:100%; padding:0 10px}}
+@media  screen and (max-width: 800px) {#page-info .info{flex-direction:column;flex-wrap:wrap}#page-info .info .poster{flex:1}#page-info .info .text{flex:1;width:100%}}
+@media (min-width: 250px) and (max-width: 479px){.poster img {width:100% !important}}
+.buttons .btn-stream-link{background: transparent;color:#fff;font-weight:600;border:0}
+#info-film h2.heading-info{ color: #ddd; font-size:18px !important; font-weight: 700;}
+.list-films #film_related .item{padding-bottom:1em}
+.blockbody .detail .heading{color:#da966e;font-size:18px !important ;position:relative;margin-bottom:1em}
+.blockbody .detail .heading::after{position: absolute;  width: 55%;  height: 2px;  left: 0;  background: #da966e;  content: "";  bottom:-10px;  display: block;}
+div#page-info .blockbody {background:transparent}
+ul.film-info li {padding-bottom: 10px; !important;color:#bbbbbb;font-weight:bold}
+ul.film-info li a{color:#dddddd;font-weight:bold}ul.film-info li a:hover{color:#da966e}
+.poster img {border-radius:6px}
+.tabs-content p{line-height:30px;font-size:16px;color:#abb7c4}
+.film-note, .series-movies {border: 1px solid #e8a568;background: #181818;border-radius: 6px;margin-bottom: 2em;}
+.series-movies{padding:5px 10px;border: none;box-shadow: 1px 1px 10px #3a3a3a;margin-top: 2em;}
+.series-movies .series_title{font-weight:600;color:#ff9658}
+.series-movies .series_list{display:flex;padding:1em 0;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.series-movies .series_list a{padding:10px 20px;background:#3a3a3a;border-radius:5px;color:#fff}
+.series-movies .series_list a:hover{background:#da966e}
+#page-info .film-note a {color: #ff9658}
+#page-info .blockbody .text {margin:0}
+/* archive */
+/* archive */
+@media (max-width:480px){.list-films ul {grid-template-columns: repeat(2, 1fr);padding: 0px 10px;}}
+@media (min-width:481px) and (max-width:768px){.list-films ul {grid-template-columns: repeat(3, 1fr);padding: 0 10px;}}}
+.notice.note-rophim {border: 1px solid #FFB400;text-align: center;padding: 10px;color: #333;background-color: #FFF8E1;font-weight:700}
+@keyframes moveLeft {0% { transform: translateX(0); }50% { transform: translateX(-10px); }	100% { transform: translateX(0); }}
+@keyframes moveRight {0% { transform: translateX(0); }50% { transform: translateX(10px); }	100% { transform: translateX(0); }}
+.icon-left {animation: moveLeft 1s infinite ease-in-out;display:inline-block}
+.icon-right { animation: moveRight 1s infinite ease-in-out;display:inline-block}
+a.adspruce-streamlink:before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;background:rgba(0,0,0,0.3);/* nền trắng mờ */
+    border-radius:50%;display:flex;justify-content:center;align-items:center;box-shadow:0 0 0 0 #fecf59;animation:borderPulse 2s linear infinite;z-index:1}
+a.adspruce-streamlink::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-40%,-50%);width:0;height:0;border-top:15px solid transparent;border-bottom:15px solid transparent;border-left:25px solid #ffffff;/* to hơn,dài hơn */
+    z-index:2}
+/* Animation cho viền lan tỏa */
+@keyframes borderPulse{0%{box-shadow:0 0 0 0 #fecf59}50%{box-shadow:0 0 0 6px rgba(254,207,89,.5)}100%{box-shadow:0 0 0 0 transparent}}
+.server-episode-block{font-size:16px;font-weight:700;margin-bottom:10px;color:#da843d}

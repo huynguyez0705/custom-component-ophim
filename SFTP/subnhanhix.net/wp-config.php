@@ -32,14 +32,13 @@ if ( !isset( $_SERVER['HTTPS'] ) ) {
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-
-define('DB_NAME', 'admin_motphimchillday');
+define('DB_NAME', 'admin_subnhanhixnet');
 
 /** Database username */
-define('DB_USER', 'admin_wp_wkbes');
+define('DB_USER', 'admin_wp_j2tfr');
 
 /** Database password */
-define('DB_PASSWORD', '!65^g2X_qSBMZTk2');
+define('DB_PASSWORD', 'f4q@ujS#o&E73ju^');
 
 /** Database hostname */
 define('DB_HOST', 'localhost:3306');
@@ -61,14 +60,14 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-define('AUTH_KEY', 'K[)V!dGng*nL*6]t(k8v@i7ceO!Wg/EN/q@o5JYNLs/4v]Ar2V66L#)6AD[pZ&_D');
-define('SECURE_AUTH_KEY', '7!4qDI-2uJu:|I8+]ZWcp%QVIc2b:82tF!UvL2@4|hgn23W*WC@[32@X3FZ[6AU1');
-define('LOGGED_IN_KEY', 'ur4l[8&bD39wO%)QtSZM!N3p7FJ3hJ9H_7G[8t#@)@]nSz/qAelDJg_P1ARQ5L6J');
-define('NONCE_KEY', 'Sq4q#1Dn8:2#Y+I9+U_0h4K(n-0T4X8J:h_c;PG2+T81)CkV9J8Z9V|ua45:Y1t3');
-define('AUTH_SALT', '9):+|P]#it|]qg|39_*L19[I4i2CzOn4Uxx4CB9vP39Q9i[14*%:qsVks8X2|di9');
-define('SECURE_AUTH_SALT', 'f0f~|0yVF(lhc_+&kp7*89nRmH_78Ej2;~4/V/4L!P63-fv[)K!_R8IaGwP;D139');
-define('LOGGED_IN_SALT', 'uY89+1lvc&+O@49v0b9)4Yv131wML@4t70@2/DZ)%[;-]9/0*p3[7SbV_:t0jsU[');
-define('NONCE_SALT', 'QO4c!)S)0+Y8(Z+U!G-ZsK1tW~c&3B52;6a3IpM4*l5|m6zljGN10-/88R;St282');
+define('AUTH_KEY', '(46G9~z!D8aW4RM3P~4258bv933tT8(1y1@98s4j6*9ey4gI52@KG28Tj(9huL4A');
+define('SECURE_AUTH_KEY', 'QFr#Y+@4p;@]8-5*OD0_FpNN8p5KfzABG683ok#(l77)kom)--x(4_y53l2]Z866');
+define('LOGGED_IN_KEY', 'o8P3S0K6[t/o5uI||d3]SG-T55|2v_~GFy03|ZuuON[Wf[#1s4lB;Zy7:Qo0d8;:');
+define('NONCE_KEY', 'C)4xrB0:-WMr-k_m*koa4K-~l@7B]!Os|~D/P#G&5hN|]4b[KEA&qMOf)|||#@ln');
+define('AUTH_SALT', '89V7Yk6R3hb@%5(;(#)(14!+gPDqPf35l7@-I:XvR9+RCF5c4h42cP;Ptz8b1Pp2');
+define('SECURE_AUTH_SALT', 'h_lPBMGYud93a9#WM8F&87&08~18m4H~X84Y7JLE(1D!/VTZk~6mLp-2[j@fmCKs');
+define('LOGGED_IN_SALT', '707OFH#u5G!3u2&9W:#7317n@aBT;+8Bv7V874_z%qnfZ%sM|:x1m@wv@1blJh9Y');
+define('NONCE_SALT', 'QxD7-M5*(lb|i5TDE:O!xyhGA1083*8!f-:-4P92Ul+z1ik9!9+;2WvMbIUk|8o6');
 
 
 /**#@-*/
@@ -86,18 +85,6 @@ $table_prefix = 'gfNxY_';
 
 define('WP_ALLOW_MULTISITE', true);
 
-if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-    wp_die( '0', 400 );
-}
-
-// Định nghĩa WP_DEBUG trước
-if ( ! defined( 'WP_DEBUG' ) ) {
-    define( 'WP_DEBUG', false );
-    define( 'WP_DEBUG_LOG', false ); // Ghi lỗi vào tệp debug.log
-    define( 'WP_DEBUG_DISPLAY', false ); // Không hiển thị lỗi trên giao diện
-}
-
-
 
 /**
  * For developers: WordPress debugging mode.
@@ -112,9 +99,21 @@ if ( ! defined( 'WP_DEBUG' ) ) {
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
 
+// if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+//     wp_die( '0', 400 );
+// }
 
-define( 'WP_CACHE_KEY_SALT', 'de97c0b0efa083af7be419efeb121ddf' );
-define( 'WP_REDIS_PREFIX', 'wp_de97c0b0efa083af7be419efeb121ddf' );
+if ( ! defined( 'WP_DEBUG' ) ) {
+define( 'WP_DEBUG', false );           // Tắt chế độ debug
+define( 'WP_DEBUG_LOG', false );       // Tắt ghi lỗi vào file debug.log
+define( 'WP_DEBUG_DISPLAY', false ); 
+}     // Tắt hiển thị lỗi trên giao diện
+
+
+
+define( 'WP_CACHE_KEY_SALT', '1f640f14d3a7659cffbef7b860c112ef' );
+define( 'DISABLE_WP_CRON', true );
+define( 'WP_REDIS_PREFIX', 'wp_1f640f14d3a7659cffbef7b860c112ef' );
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
