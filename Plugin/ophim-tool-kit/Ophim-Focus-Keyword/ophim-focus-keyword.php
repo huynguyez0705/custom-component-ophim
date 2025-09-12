@@ -1,10 +1,5 @@
 <?php
-/**
- * Plugin Name: Add Focus Keywords
- * Description: Kiểm tra và thêm/cập nhật focus keyword (Rank Math hoặc Yoast SEO) bằng tiêu đề bài viết.
- * Version: 1.2
- * Author: Dương Quá
- */
+
 
 function check_and_update_seo_focus_keyword($custom_prefix = '') {
     global $wpdb;

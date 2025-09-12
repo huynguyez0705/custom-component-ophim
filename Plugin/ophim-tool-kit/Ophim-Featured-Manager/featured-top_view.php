@@ -1,10 +1,5 @@
 <?php
-/**
- * Plugin Name: Viewed and Featured Movies
- * Description: Quản lý và hiển thị các phim có lượt xem cao nhất và phim nổi bật trong quản trị WordPress.
- * Version: 1.2
- * Author: Dương Quá 
- */
+
 
 if (!defined('ABSPATH')) exit;
 
