@@ -86,9 +86,9 @@ $table_prefix = 'gfNxY_';
 
 define('WP_ALLOW_MULTISITE', true);
 
-// if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-//     wp_die( '0', 400 );
-// }
+if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+    wp_die( '0', 400 );
+}
 
 // Định nghĩa WP_DEBUG trước
 if ( ! defined( 'WP_DEBUG' ) ) {

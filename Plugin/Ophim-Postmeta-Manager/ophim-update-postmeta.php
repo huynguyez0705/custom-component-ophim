@@ -44,137 +44,7 @@ class Ophim_Update_Postmeta_Plugin {
                 </div>
             </div>
         </div>
-        <style>
-.ophim-wrap { 
-    background: #f9f9f9; 
-    padding: 20px; 
-    border-radius: 8px; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-    overflow: hidden; 
-}
-
-.ophim-title { 
-    color: #2c3e50; 
-    margin-bottom: 20px; 
-}
-
-.ophim-input-group { 
-    margin-bottom: 20px; 
-}
-
-.ophim-input-group label { 
-    display: block; 
-    font-weight: 500; 
-    margin-bottom: 5px; 
-    color: #34495e; 
-}
-
-.ophim-input-group input { 
-    padding: 8px; 
-    width: 200px; 
-    border: 1px solid #ddd; 
-    border-radius: 4px; 
-    font-size: 14px; 
-}
-
-.ophim-btn { 
-    padding: 8px 15px; 
-    background: #3498db; 
-    color: white; 
-    border: none; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    margin-left: 10px; 
-}
-
-.ophim-btn:hover { 
-    background: #2980b9; 
-}
-
-.ophim-table-container {  
-    max-width: 100%; 
-    overflow-x: auto; 
-}
-
-.ophim-table { 
-    display: flex; 
-    flex-direction: column; 
-    max-width: 100%;  
-    overflow-x: auto;
-}
-
- .ophim-table-cell:nth-child(1) { 
-    width: 25%; 
-}
-
- .ophim-table-cell:nth-child(2) { 
-    width: 60%; 
-}
-
- .ophim-table-cell:nth-child(3) { 
-    width: 15%; 
-    text-align: center; 
-}
-
-.ophim-table-header { 
-    display: flex;
-    width: 100%;
-}
-
-.ophim-table-header .ophim-table-cell { 
-    background: #3498db; 
-    color: white; 
-    font-weight: bold; 
-    padding: 12px; 
-    text-align: center; 
-
-    border:2px solid;
-}
-
-.ophim-table-body { 
-    display: flex;
-    flex-direction: column;
-}
-
-.ophim-table-body .ophim-table-row { 
-    display: flex; 
-    width: 100%; 
-}
-
-.ophim-table-body .ophim-table-cell { 
-    padding: 12px; 
-    border:2px solid #fff;
-
-}
-
-.ophim-table-body .ophim-table-cell:nth-child(3) { 
-    text-align: center; 
-}
-
-.ophim-table-cell input { 
-    padding: 6px; 
-    max-width: 100%; 
-    border: 1px solid #ddd; 
-    border-radius: 4px; 
-    overflow: scroll;
-}
-
-.scroll { 
-    max-height: 100px; 
-    overflow-y: auto; 
-    display: block; 
-}
-
-textarea { 
-    width: 100%; 
-    height: 100px; 
-    padding: 6px; 
-    border: 1px solid #ddd; 
-    border-radius: 4px; 
-    resize: vertical; 
-}
-
-        </style>
+        <link rel="stylesheet" href="<?php echo plugins_url('post-meta.css', __FILE__); ?>">
         <script>
         jQuery(document).ready(function($) {
             $('#load-meta').on('click', function() {
@@ -221,26 +91,35 @@ textarea {
                 var metaKey = $row.find('.meta-key').text();
                 var metaValue = $row.find('.edit-value').val() || $row.find('textarea.edit-value').val();
 
-                $.ajax({
-                    url: '<?php echo admin_url('admin-post.php'); ?>',
-                    type: 'POST',
-                    data: {
-                        action: 'update_postmeta',
-                        post_id: post_id,
-                        meta_key: metaKey,
-                        meta_value: metaValue
-                    },
-                    success: function() {
-                        var valueCell = (metaKey === 'ophim_episode_list') 
-                            ? `<div class="meta-value scroll">${metaValue}</div>` 
-                            : `<div class="meta-value">${metaValue}</div>`;
-                        $row.html(`
-                            <div class="ophim-table-cell meta-key">${metaKey}</div>
-                            <div class="ophim-table-cell">${valueCell}</div>
-                            <div class="ophim-table-cell"><button class="ophim-edit-btn ophim-btn">Edit</button></div>
-                        `);
-                    }
-                });
+                if (confirm('Bạn có muốn lưu giá trị này?')) {
+                    $.ajax({
+                        url: '<?php echo admin_url('admin-post.php'); ?>',
+                        type: 'POST',
+                        data: {
+                            action: 'update_postmeta',
+                            post_id: post_id,
+                            meta_key: metaKey,
+                            meta_value: metaValue
+                        },
+                        success: function(response) {
+                            var valueCell = (metaKey === 'ophim_episode_list') 
+                                ? `<div class="meta-value scroll">${metaValue}</div>` 
+                                : `<div class="meta-value">${metaValue}</div>`;
+                            $row.html(`
+                                <div class="ophim-table-cell meta-key">${metaKey}</div>
+                                <div class="ophim-table-cell">${valueCell}</div>
+                                <div class="ophim-table-cell"><button class="ophim-edit-btn ophim-btn">Edit</button></div>
+                            `);
+                            $('#meta-table-container').before('<div class="ophim-message">Lưu thành công!</div>');
+                            setTimeout(function() { $('.ophim-message').fadeOut('slow', function() { $(this).remove(); }); }, 3000);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log('Error:', xhr.responseText);
+                            $('#meta-table-container').before('<div class="ophim-message error">Lỗi khi lưu dữ liệu: ' + error + '</div>');
+                            setTimeout(function() { $('.ophim-message').fadeOut('slow', function() { $(this).remove(); }); }, 3000);
+                        }
+                    });
+                }
             });
         });
         </script>
@@ -254,8 +133,12 @@ textarea {
         }
 
         $post_id = intval($_POST['post_id']);
-        global $wpdb;
+        if (!current_user_can('edit_post', $post_id)) {
+            echo '<div class="ophim-table-row"><div class="ophim-table-cell" style="grid-column: span 3;">Bạn không có quyền truy cập</div></div>';
+            wp_die();
+        }
 
+        global $wpdb;
         $meta_data = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT meta_key, meta_value FROM {$wpdb->prefix}postmeta WHERE post_id = %d",
@@ -286,21 +169,29 @@ textarea {
 
     public function update_postmeta() {
         if (!isset($_POST['post_id'], $_POST['meta_key'], $_POST['meta_value'])) {
-            wp_die('Thiếu thông tin yêu cầu!');
+            wp_send_json_error('Thiếu thông tin yêu cầu!');
         }
 
         $post_id = intval($_POST['post_id']);
+        if (!current_user_can('edit_post', $post_id)) {
+            wp_send_json_error('Bạn không có quyền chỉnh sửa!');
+        }
+
         $meta_key = sanitize_text_field($_POST['meta_key']);
         $meta_value = $_POST['meta_value']; // Không sanitize vì ophim_episode_list có thể chứa serialized data
 
         global $wpdb;
-        $wpdb->update(
+        $result = $wpdb->update(
             $wpdb->prefix . 'postmeta',
             ['meta_value' => $meta_value],
             ['post_id' => $post_id, 'meta_key' => $meta_key]
         );
 
-        wp_die();
+        if ($result !== false) {
+            wp_send_json_success('Lưu thành công!');
+        } else {
+            wp_send_json_error('Lỗi khi lưu dữ liệu!');
+        }
     }
 }
 

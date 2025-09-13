@@ -1,0 +1,138 @@
+.ophim-wrap { 
+    background: #f9f9f9; 
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    overflow: hidden; 
+}
+
+.ophim-title { 
+    color: #2c3e50; 
+    margin-bottom: 20px; 
+}
+
+.ophim-input-group { 
+    margin-bottom: 20px; 
+}
+
+.ophim-input-group label { 
+    display: block; 
+    font-weight: 500; 
+    margin-bottom: 5px; 
+    color: #34495e; 
+}
+
+.ophim-input-group input { 
+    padding: 8px; 
+    width: 200px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    font-size: 14px; 
+}
+
+.ophim-btn { 
+    padding: 8px 15px; 
+    background: #3498db; 
+    color: white; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    margin-left: 10px; 
+}
+
+.ophim-btn:hover { 
+    background: #2980b9; 
+}
+
+.ophim-table-container {  
+    max-width: 100%; 
+    overflow-x: auto; 
+}
+
+.ophim-table { 
+    display: flex; 
+    flex-direction: column; 
+    max-width: 100%;  
+    overflow-x: auto;
+}
+
+.ophim-table-cell:nth-child(1) { 
+    width: 25%; 
+}
+
+.ophim-table-cell:nth-child(2) { 
+    width: 60%; 
+}
+
+.ophim-table-cell:nth-child(3) { 
+    width: 15%; 
+    text-align: center; 
+}
+
+.ophim-table-header { 
+    display: flex;
+    width: 100%;
+}
+
+.ophim-table-header .ophim-table-cell { 
+    background: #3498db; 
+    color: white; 
+    font-weight: bold; 
+    padding: 12px; 
+    text-align: center; 
+    border: 2px solid;
+}
+
+.ophim-table-body { 
+    display: flex;
+    flex-direction: column;
+}
+
+.ophim-table-body .ophim-table-row { 
+    display: flex; 
+    width: 100%; 
+}
+
+.ophim-table-body .ophim-table-cell { 
+    padding: 12px; 
+    border: 2px solid #fff;
+}
+
+.ophim-table-body .ophim-table-cell:nth-child(3) { 
+    text-align: center; 
+}
+
+.ophim-table-cell input { 
+    padding: 6px; 
+    width: 100%; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    overflow: scroll;
+}
+
+.scroll { 
+    max-height: 100px; 
+    overflow-y: auto; 
+    display: block; 
+}
+
+textarea { 
+    width: 100%; 
+    height: 100px; 
+    padding: 6px; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    resize: vertical; 
+}
+
+.ophim-message { 
+    padding: 10px; 
+    margin: 10px 0; 
+    border-radius: 4px; 
+    color: white; 
+    background: #27ae60; 
+}
+
+.ophim-message.error { 
+    background: #c0392b; 
+}
