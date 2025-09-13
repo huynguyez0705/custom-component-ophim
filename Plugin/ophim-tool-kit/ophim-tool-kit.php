@@ -16,6 +16,7 @@ $plugin_files = [
     __DIR__ . '/Ophim-Categories-Manager/ophim-categories-plugin.php',
     __DIR__ . '/Ophim-Featured-Manager/featured-top_view.php',
     __DIR__ . '/Ophim-Focus-Keyword/ophim-focus-keyword.php',
+    __DIR__ . '/Ophim-Custom-Meta/ophim-custom-meta.php',
 ];
 
 foreach ($plugin_files as $file) {
