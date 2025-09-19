@@ -18,7 +18,7 @@ $position_1_name = "	 Phim";
 $position_1_url = home_url(); // Giả sử URL là trang chủ
 ?>
 
-<ul class="breadcrumb-pm">
+<ul class="breadcrumb">
 	<li><a title="<?= $position_1_name ?>" href="<?= $position_1_url ?>"><i class="fa fa-home"></i>
 			<?= $position_1_name ?></a></li>
 	<?php
@@ -56,7 +56,7 @@ $position_1_url = home_url(); // Giả sử URL là trang chủ
 </ul>
 
 <style>
-	.breadcrumb-pm {
+	.breadcrumb {
 		display: flex;
 		list-style: none;
 		padding: 1rem;
@@ -69,47 +69,49 @@ $position_1_url = home_url(); // Giả sử URL là trang chủ
 		row-gap: 2rem;
 		align-items: center;
 		text-transform: uppercase;
-		background: rgba(0, 0, 0, .5)
+		background: #181818
 	}
 
-	.breadcrumb-pm li {
+	.breadcrumb li {
 		display: flex;
 		align-items: center
 	}
 
-	.breadcrumb-pm li+li::before {
-		content: "\f0da";
+	.breadcrumb li+li::before {
+		content: "/\00a0";
 		margin: 0 8px;
 		color: var(--color);
 		font-size: 18px;
-		font-family: "Font Awesome 5 Free"
+		font-family: "Font Awesome 5 Free";
+		padding: 0;
+		font-weight: 900;
 	}
 
-	.breadcrumb-pm a {
+	.breadcrumb a {
 		text-decoration: none;
 		color: #fff !important;
 		transition: color 0.2s
 	}
 
-	.breadcrumb-pm a:hover {
+	.breadcrumb a:hover {
 		color: var(--hover) !important
 	}
 
-	.breadcrumb-pm .breadcrumb_last {
+	.breadcrumb .breadcrumb_last {
 		color: #ddd !important
 	}
 
-	.breadcrumb-pm i {
+	.breadcrumb i {
 		margin-right: 5px;
 		color: var(--color)
 	}
 
 	@media (max-width:768px) {
-		.breadcrumb-pm {
+		.breadcrumb {
 			font-size: 14px
 		}
 
-		.breadcrumb-pm li+li::before {
+		.breadcrumb li+li::before {
 			margin: 0 5px
 		}
 	}
