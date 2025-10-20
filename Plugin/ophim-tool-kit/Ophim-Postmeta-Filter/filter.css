@@ -1,0 +1,156 @@
+/* ====================================
+   1. LAYOUT CHUNG & KHUNG FORM
+   ==================================== */
+.ophim-form-wrap {
+	/* Đảm bảo mở rộng 100% và tuân thủ giao diện Admin */
+	background-color: #fff;
+	padding: 20px;
+	border: 1px solid #c3c4c7; /* Viền chuẩn WordPress */
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	max-width: 100%; /* Theo yêu cầu của bạn */
+	box-sizing: border-box;
+	margin-bottom: 20px;
+}
+
+.ophim-title {
+	color: #2c3e50;
+	font-weight: 600;
+	font-size: 1.4em;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+}
+
+.ophim-form-row {
+	margin-bottom: 16px;
+}
+.ophim-form-row label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 4px;
+	color: #333;
+	font-size: 0.95em;
+}
+
+/* ====================================
+   2. INPUTS (Phong cách Admin Mặc định)
+   ==================================== */
+.ophim-select,
+.ophim-input,
+.ophim-combo,
+.ophim-input-small {
+	padding: 8px 10px;
+	border: 1px solid #8c8f94; /* Viền chuẩn WP */
+	border-radius: 4px;
+	font-size: 14px;
+	box-sizing: border-box;
+	transition: border-color 0.1s ease-in-out;
+	background-color: #fff;
+}
+
+/* Hiệu ứng Focus chuẩn WordPress */
+.ophim-select:focus,
+.ophim-input:focus,
+.ophim-combo:focus,
+.ophim-input-small:focus {
+	border-color: #007cba;
+	outline: 2px solid transparent;
+	box-shadow: 0 0 0 1px #007cba;
+}
+
+.ophim-input-small {
+	width: 130px;
+	text-align: left;
+}
+
+/* Datalist Suggestion (Không thay đổi vì dùng mặc định của trình duyệt) */
+
+/* ====================================
+   3. META ROWS & BUTTONS
+   ==================================== */
+#meta-rows .meta-row {
+	display: grid;
+	/* Giữ lại cấu trúc Grid để dễ quản lý */
+	grid-template-columns: 4fr 5fr auto;
+	gap: 15px;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.remove-row {
+	/* Nút "Xóa" dùng phong cách nguy hiểm/admin */
+	cursor: pointer;
+	padding: 6px 10px;
+	background: #dc3232; /* Màu đỏ tiêu chuẩn */
+	color: white;
+	border: none;
+	border-radius: 3px;
+	min-width: 60px;
+	font-weight: 500;
+	transition: background 0.2s;
+}
+.remove-row:hover {
+	background: #c0392b;
+}
+
+#add-row {
+	/* Nút "Thêm" dùng phong cách phụ/secondary của WP */
+	padding: 6px 12px;
+	font-weight: 500;
+}
+
+/* ====================================
+   4. KẾT QUẢ & PHÂN TRANG
+   ==================================== */
+.ophim-results {
+	min-height: 100px;
+	padding-top: 15px;
+}
+
+.ophim-muted {
+	color: #666;
+	font-size: 0.9em;
+	margin-top: 5px;
+}
+
+.result-meta-key {
+	max-width: 250px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Phân trang (Quay lại style chuẩn Admin) */
+.ophim-page-link.page-numbers {
+	padding: 4px 8px;
+	text-decoration: none;
+	border: 1px solid #c3c4c7;
+	background: #f3f3f3;
+	color: #2c3e50;
+	margin: 0 2px;
+	border-radius: 3px;
+	font-weight: 400;
+	line-height: 1.5;
+	transition: all 0.1s;
+}
+.ophim-page-link.page-numbers:hover {
+	border-color: #7e8993;
+	background: #ddd;
+}
+.ophim-page-link.page-numbers.current {
+	border-color: #007cba;
+	background: #007cba;
+	color: #fff;
+	cursor: default;
+}
+
+/* Spinner và Loading */
+.loading {
+	opacity: 0.5;
+	pointer-events: none;
+}
+.spinner {
+	margin: 0 10px;
+	vertical-align: middle;
+}
