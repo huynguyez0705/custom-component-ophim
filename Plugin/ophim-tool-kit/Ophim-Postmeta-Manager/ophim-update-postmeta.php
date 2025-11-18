@@ -9,12 +9,12 @@ class Ophim_Update_Postmeta_Plugin {
 
 	public function add_admin_menu() {
 		add_submenu_page(
-			'edit.php?post_type=ophim',
-			'Quản Lý Postmeta',
-			'Quản Lý Postmeta',
-			'manage_options',
-			'ophim-update-postmeta',
-			[$this, 'admin_page']
+      'ophim-toolkit',
+      'Quản Lý Postmeta',
+      'Quản Lý Postmeta',
+      'manage_options',
+      'ophim-update-postmeta',
+      [$this, 'admin_page']
 		);
 	}
 

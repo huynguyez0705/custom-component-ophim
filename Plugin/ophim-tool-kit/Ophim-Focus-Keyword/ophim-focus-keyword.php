@@ -1,4 +1,17 @@
 <?php
+// Add an admin menu item under ophim post type
+add_action('admin_menu', 'add_seo_keyword_menu');
+function add_seo_keyword_menu()
+{
+  add_submenu_page(
+    'ophim-toolkit',
+    'Quản Lý Keyword',
+    'Quản Lý Keyword',
+    'manage_options',
+    'manage-seo-keyword',
+    'render_seo_keyword_page'
+  );
+}
 
 function check_and_update_seo_focus_keyword($custom_prefix = '') {
     global $wpdb;
@@ -100,7 +113,7 @@ function check_and_update_seo_focus_keyword($custom_prefix = '') {
                 'edit_link' => $edit_link,
                 'meta_value' => $post_title,
                 'meta_key' => $meta_key
-            );
+                );
         }
 
         $results['processed']++;
@@ -284,9 +297,29 @@ function run_check_seo_keyword() {
     }
 
     $response = '<div class="seo-keyword-results">';
-    $response .= '<h3>Tổng số bài viết đã xử lý: ' . esc_html($results['processed']) . '</h3>';
+    $response .= '<h3>Tổng số bài viết đã kiểm tra: ' . esc_html($results['processed']) . '</h3>';
 
-    $response .= '<h4>Bài viết đã cập nhật Focus Keyword (trống thành tiêu đề):</h4>';
+    $response .= '<h4>Bài viết đã có Focus Keyword:</h4>';
+    if (!empty($results['existing'])) {
+        $response .= '<table class="wp-list-table widefat fixed striped">';
+        $response .= '<thead><tr>';
+        $response .= '<th>Post ID</th><th>Tiêu đề</th><th>Meta Key</th><th>Meta Value</th><th>Link Edit</th>';
+        $response .= '</tr></thead><tbody>';
+        foreach ($results['existing'] as $post) {
+            $response .= '<tr>';
+            $response .= '<td>' . esc_html($post['post_id']) . '</td>';
+            $response .= '<td>' . esc_html($post['post_title']) . '</td>';
+            $response .= '<td>' . esc_html($post['meta_key']) . '</td>';
+            $response .= '<td>' . esc_html($post['meta_value']) . '</td>';
+            $response .= '<td><a href="' . esc_url($post['edit_link']) . '" target="_blank">Chỉnh sửa</a></td>';
+            $response .= '</tr>';
+        }
+        $response .= '</tbody></table>';
+    } else {
+        $response .= '<p>Không có bài viết nào đã có Focus Keyword.</p>';
+    }
+
+    $response .= '<h4>Bài viết cần cập nhật Focus Keyword (trống):</h4>';
     if (!empty($results['updated'])) {
         $response .= '<table class="wp-list-table widefat fixed striped">';
         $response .= '<thead><tr>';
@@ -427,17 +460,15 @@ function run_update_seo_keyword() {
     wp_send_json_success($response);
 }
 
-// Add an admin menu item under ophim post type
-add_action('admin_menu', 'add_seo_keyword_menu');
-function add_seo_keyword_menu() {
-    add_submenu_page(
-        'edit.php?post_type=ophim',
-        'Quản Lý Keyword',
-        'Quản Lý Keyword',
-        'manage_options',
-        'manage-seo-keyword',
-        'render_seo_keyword_page'
-    );
+
+
+// Enqueue custom CSS for better UX/UI
+add_action('admin_enqueue_scripts', 'seo_keyword_admin_styles');
+function seo_keyword_admin_styles($hook) {
+    if ($hook !== 'ophim_page_manage-seo-keyword') {
+        return;
+    }
+    wp_enqueue_style('seo-keyword-admin-style', plugin_dir_url(__FILE__) . 'seo-keyword.css', array(), '1.1');
 }
 
 // Render admin page
@@ -456,7 +487,6 @@ function render_seo_keyword_page() {
             <button type="button" id="update-keyword-button" class="button button-secondary">Chèn Focus Keyword</button>
         </form>
         <div id="keyword-result" class="seo-keyword-results"></div>
-        <link rel="stylesheet" href="<?php echo plugins_url('seo-keyword.css', __FILE__) . '?v=' . filemtime(plugin_dir_path(__FILE__) . 'seo-keyword.css'); ?>">
     </div>
     <script>
         jQuery(document).ready(function($) {
@@ -501,4 +531,3 @@ function render_seo_keyword_page() {
     </script>
     <?php
 }
-?>

@@ -12,7 +12,7 @@ class Ophim_Category_Manager_Plugin {
 
 	public function add_admin_menu() {
 		add_submenu_page(
-			'edit.php?post_type=ophim',
+      'ophim-toolkit',
 			'Quản lý Danh Mục',
 			'Quản lý Danh Mục',
 			'manage_options',
