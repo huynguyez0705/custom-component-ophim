@@ -1,0 +1,576 @@
+(function () {
+    if (!window.OP_AJAX) return;
+
+    function qs(selector, root) {
+        return (root || document).querySelector(selector);
+    }
+    function qsa(selector, root) {
+        return Array.prototype.slice.call((root || document).querySelectorAll(selector));
+    }
+
+    function toQuery(params) {
+        return Object.keys(params)
+            .map(function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]); })
+            .join('&');
+    }
+
+    function postAjax(bodyObj) {
+        return fetch(OP_AJAX.ajax_url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+            body: toQuery(bodyObj)
+        }).then(function (res) {
+            return res.json();
+        });
+    }
+
+    function showMsg(form, type, text) {
+        var box = form.querySelector('.op-status');
+        if (!box) return;
+        box.classList.remove('op-success', 'op-error');
+        box.classList.add('op-alert', type === 'error' ? 'op-error' : 'op-success');
+        box.textContent = text || '';
+        box.style.display = 'block';
+    }
+
+    function getPostId(scope) {
+        var wrap = scope.closest('.op-wrap');
+        if (!wrap) return 0;
+        var pid = wrap.getAttribute('data-post');
+        if (!pid) {
+            var hidden = wrap.querySelector('input[name="post_id"]');
+            if (hidden && hidden.value) pid = hidden.value;
+        }
+        return parseInt(pid || '0', 10) || 0;
+    }
+
+    // Turnstile helpers
+    function getTsEl(scope) {
+        if (!scope) return null;
+        return scope.querySelector('.op-turnstile-container');
+    }
+
+    function renderTurnstileOnce(scope) {
+        try {
+            if (!window.turnstile || !OP_AJAX.turnstile_enabled || !OP_AJAX.turnstile_sitekey) return;
+            var el = getTsEl(scope);
+            if (!el) return;
+            if (el.dataset.rendered || el.querySelector('iframe')) return;
+
+            el._op_tokenReady = false;
+            el._op_error = false;
+            el._op_expired = false;
+            el._op_waitSubmit = false;
+
+            window.turnstile.render(el, {
+                sitekey: OP_AJAX.turnstile_sitekey,
+                theme: 'dark',
+                size: 'flexible',
+                callback: function () {
+                    el._op_tokenReady = true;
+                    var form = el.closest('form.op-form[data-ajax="1"]');
+                    if (el._op_waitSubmit && form) {
+                        el._op_waitSubmit = false;
+                        form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                    }
+                },
+                'expired-callback': function () {
+                    el._op_expired = true;
+                    el._op_tokenReady = false;
+                },
+                'error-callback': function () {
+                    el._op_error = true;
+                    el._op_tokenReady = false;
+                }
+            });
+            el.dataset.rendered = '1';
+        } catch (e) { }
+    }
+
+    function resetTurnstile(scope) {
+        try {
+            var el = getTsEl(scope);
+            if (window.turnstile && el) {
+                el._op_tokenReady = false;
+                el._op_expired = false;
+                el._op_error = false;
+                window.turnstile.reset(el);
+            }
+        } catch (e) { }
+    }
+
+    function ensureTokenOrWait(form) {
+        if (!window.turnstile || !OP_AJAX.turnstile_enabled) return true;
+        var el = getTsEl(form);
+        if (!el) return true;
+
+        var token = '';
+        try {
+            token = window.turnstile.getResponse(el) || '';
+        } catch (e) {
+            token = '';
+        }
+
+        if (token) return true;
+
+        renderTurnstileOnce(form);
+        el._op_waitSubmit = true;
+
+        var btn = form.querySelector('.btn-send, .op-btn-sm');
+        if (btn) {
+            btn.disabled = true;
+            btn.dataset.orig = btn.innerHTML;
+            btn.innerHTML = 'Đang xác minh…';
+        }
+
+        return false;
+    }
+
+    function restoreBtn(form) {
+        var btn = form.querySelector('.btn-send, .op-btn-sm');
+        if (!btn) return;
+        if (btn.dataset.orig) btn.innerHTML = btn.dataset.orig;
+        btn.disabled = false;
+    }
+
+    // Load top-level comments
+    function loadTop(wrap, postId, offset, sort) {
+        var list = wrap.querySelector('.op-list');
+        if (!list) return;
+        
+        // If reloading (offset 0), show loading state
+        if (offset === 0) {
+            list.innerHTML = '<p class="op-empty">Đang tải bình luận...</p>';
+        }
+
+        postAjax({
+            action: 'op_load_comments',
+            nonce: OP_AJAX.nonce,
+            post_id: postId,
+            offset: offset,
+            sort: sort || 'newest'
+        }).then(function (res) {
+            var btnMore = wrap.querySelector('.op-loadmore');
+
+            if (res && res.success) {
+                var data = res.data || {};
+                var html = data.html || '';
+                var total = data.total || 0;
+                var loaded = data.loaded || 0;
+
+                if (offset === 0) {
+                    list.innerHTML = html || '<p class="op-empty">Chưa có bình luận nào.</p>';
+                } else if (html) {
+                    list.insertAdjacentHTML('beforeend', html);
+                }
+
+                if (btnMore) {
+                    if (loaded < total) {
+                        btnMore.dataset.offset = String(loaded);
+                        btnMore.style.display = 'inline-block';
+                    } else {
+                        btnMore.style.display = 'none';
+                    }
+                }
+            } else if (offset === 0) {
+                list.innerHTML = '<p class="op-empty">Không tải được bình luận.</p>';
+            }
+        }).catch(function () {
+            if (offset === 0) {
+                list.innerHTML = '<p class="op-empty">Không tải được bình luận.</p>';
+            }
+        });
+    }
+
+    // Load replies
+    function loadReplies(item, parentId, offset, cb) {
+        postAjax({
+            action: 'op_load_replies',
+            nonce: OP_AJAX.nonce,
+            parent_id: parentId,
+            offset: offset
+        }).then(function (res) {
+            if (!res || !res.success) return;
+            var data = res.data || {};
+            var html = data.html || '';
+            var total = data.total || 0;
+            var loaded = data.loaded || 0;
+            var panel = item.querySelector('.op-replies-acc-panel');
+            if (!panel) return;
+            var replies = panel.querySelector('.op-replies');
+            if (!replies) return;
+
+            if (offset === 0) {
+                replies.innerHTML = html;
+            } else if (html) {
+                replies.insertAdjacentHTML('beforeend', html);
+            }
+            replies.dataset.loaded = String(loaded);
+
+            if (typeof cb === 'function') {
+                cb({ total: total, loaded: loaded });
+            }
+        }).catch(function () { });
+    }
+
+    // DOM READY
+    document.addEventListener('DOMContentLoaded', function () {
+        qsa('.op-wrap').forEach(function (wrap) {
+            var pid = getPostId(wrap);
+            if (pid) loadTop(wrap, pid, 0, 'newest');
+        });
+
+        // Render turnstile in main form immediately
+        qsa('.op-form').forEach(function (form) {
+            renderTurnstileOnce(form);
+        });
+    });
+
+    // Sorting Tabs
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('.op-tab-btn')) {
+            var btn = e.target;
+            var wrap = btn.closest('.op-wrap');
+            if (!wrap) return;
+            
+            var sort = btn.dataset.sort;
+            
+            // Update active state
+            wrap.querySelectorAll('.op-tab-btn').forEach(function(b) {
+                b.classList.remove('active');
+            });
+            btn.classList.add('active');
+            
+            // Reload comments
+            var postId = getPostId(wrap);
+            loadTop(wrap, postId, 0, sort);
+        }
+    });
+
+    // Character Counter
+    document.addEventListener('input', function(e) {
+        if (e.target.id === 'op-content') {
+            var len = e.target.value.length;
+            var counter = e.target.parentElement.querySelector('.counter');
+            if (counter) counter.textContent = len + '/1000';
+        }
+    });
+
+    // Open Modal - Append to body & Lazy Load
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.avatar-picker-btn')) {
+            var modal = document.querySelector('.op-avatar-modal');
+            if (modal) {
+                document.body.appendChild(modal);
+                modal.classList.add('is-visible');
+
+                // Lazy load images
+                if (!modal.dataset.loaded) {
+                    var imgs = modal.querySelectorAll('img[data-src]');
+                    imgs.forEach(function(img) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                    });
+                    modal.dataset.loaded = 'true';
+                }
+            }
+        }
+    });
+    
+    // Close Modal
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('.op-avatar-close, .op-avatar-dismiss') || e.target.matches('.op-avatar-modal')) {
+            var modal = document.querySelector('.op-avatar-modal');
+            if (modal) {
+                modal.classList.remove('is-visible');
+                // Optional: Move back to original place or just leave in body, 
+                // but leaving in body is fine as long as we find it by class.
+            }
+        }
+    });
+    
+    // Select Avatar
+    document.addEventListener('click', function(e) {
+        var opt = e.target.closest('.op-avatar-option');
+        if (opt) {
+            var grid = opt.closest('.op-avatar-grid');
+            grid.querySelectorAll('.op-avatar-option').forEach(function(o) {
+                o.classList.remove('is-selected');
+            });
+            opt.classList.add('is-selected');
+        }
+    });
+    
+    // Save Avatar
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('.op-avatar-save')) {
+            var modal = document.querySelector('.op-avatar-modal');
+            var selected = modal.querySelector('.op-avatar-option.is-selected');
+            if (selected) {
+                var id = selected.dataset.id;
+                var img = selected.querySelector('img').src;
+                
+                // Update all avatar pickers on page
+                document.querySelectorAll('.avatar-picker').forEach(function(p) {
+                    var input = p.querySelector('input');
+                    if (input) input.value = id;
+                    var thumb = p.querySelector('.avatar-thumb');
+                    if (thumb) {
+                        thumb.style.backgroundImage = 'url(' + img + ')';
+                        thumb.style.backgroundSize = 'cover';
+                    }
+                    p.classList.add('has-avatar');
+                });
+            }
+            modal.classList.remove('is-visible');
+        }
+    });
+
+    // Load more top-level
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.op-loadmore');
+        if (!btn) return;
+        var wrap = btn.closest('.op-wrap');
+        if (!wrap) return;
+        var postId = getPostId(wrap);
+        var offset = parseInt(btn.dataset.offset || '0', 10);
+        
+        // Get current sort
+        var activeTab = wrap.querySelector('.op-tab-btn.active');
+        var sort = activeTab ? activeTab.dataset.sort : 'newest';
+
+        btn.disabled = true;
+        btn.textContent = 'Đang tải...';
+        loadTop(wrap, postId, offset, sort);
+        setTimeout(function () {
+            btn.disabled = false;
+            btn.textContent = 'Xem thêm bình luận';
+        }, 400);
+    });
+
+    // Show reply form
+    document.addEventListener('click', function (e) {
+        var toggle = e.target.closest('.op-reply-toggle');
+        if (!toggle) return;
+        var item = toggle.closest('.op-item');
+        if (!item) return;
+        var wrapForm = item.querySelector('.op-reply-form-wrap');
+        if (!wrapForm) return;
+        var postId = getPostId(item);
+        var parentId = parseInt(item.getAttribute('data-comment') || '0', 10);
+
+        if (wrapForm.style.display === 'block') {
+            wrapForm.style.display = 'none';
+            wrapForm.innerHTML = '';
+            return;
+        }
+
+        var html = ''
+            + '<form class="op-form op-reply-form" data-ajax="1">'
+            + '  <input type="hidden" name="post_id" value="' + postId + '">'
+            + '  <input type="hidden" name="parent_id" value="' + parentId + '">'
+            + '  <input type="text" name="website" class="op-hp" tabindex="-1" autocomplete="off">'
+            + '  <div class="op-status" aria-live="polite" style="display:none;"></div>'
+            + '  <textarea name="comment_content" rows="3" required placeholder="Nội dung trả lời"></textarea>'
+            + '  <div class="op-grid">'
+            + '    <div class="op-col">'
+            + '      <input type="text" name="comment_author" required placeholder="Tên của bạn">'
+            + '    </div>'
+            + '  </div>';
+
+        if (OP_AJAX.turnstile_enabled && OP_AJAX.turnstile_sitekey) {
+            html += '<div class="op-turnstile-wrap"><div class="op-turnstile-container" data-sitekey="'
+                + OP_AJAX.turnstile_sitekey
+                + '" data-theme="dark" data-size="flexible"></div></div>';
+        }
+
+        html += '<div class="op-reply-footer">'
+            + '  <button type="submit" class="op-btn-sm">Gửi trả lời</button>'
+            + '</div>'
+            + '</form>';
+
+        wrapForm.innerHTML = html;
+        wrapForm.style.display = 'block';
+        renderTurnstileOnce(wrapForm);
+    });
+
+    // Replies accordion / View replies
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.op-view-replies');
+        if (!btn) return;
+        var item = btn.closest('.op-item');
+        if (!item) return;
+        var panel = item.querySelector('.op-replies-acc-panel');
+        if (!panel) return;
+        var replies = panel.querySelector('.op-replies');
+        var moreBtn = panel.querySelector('.op-loadmore-replies');
+        var parentId = parseInt(item.getAttribute('data-comment') || '0', 10);
+
+        // Toggle logic
+        if (panel.style.display === 'block') {
+            panel.style.display = 'none';
+            return;
+        }
+        panel.style.display = 'block';
+
+        var loaded = parseInt(replies.dataset.loaded || '0', 10);
+        if (loaded === 0) {
+            loadReplies(item, parentId, 0, function (state) {
+                if (!moreBtn) return;
+                if (state.loaded < state.total) {
+                    moreBtn.dataset.offset = String(state.loaded);
+                    moreBtn.style.display = 'inline-block';
+                } else {
+                    moreBtn.style.display = 'none';
+                }
+            });
+        }
+    });
+
+    // Load more replies
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.op-loadmore-replies');
+        if (!btn) return;
+        var item = btn.closest('.op-item');
+        if (!item) return;
+        var parentId = parseInt(item.getAttribute('data-comment') || '0', 10);
+        var offset = parseInt(btn.dataset.offset || '0', 10);
+
+        btn.disabled = true;
+        btn.textContent = 'Đang tải...';
+
+        loadReplies(item, parentId, offset, function (state) {
+            if (state.loaded < state.total) {
+                btn.dataset.offset = String(state.loaded);
+                btn.style.display = 'inline-block';
+            } else {
+                btn.style.display = 'none';
+            }
+            btn.disabled = false;
+            btn.textContent = 'Xem thêm trả lời';
+        });
+    });
+
+    // Submit AJAX
+    document.addEventListener('submit', function (e) {
+        var form = e.target;
+        if (!form.matches('.op-form[data-ajax="1"]')) return;
+
+        if (OP_AJAX.turnstile_enabled) {
+            if (!ensureTokenOrWait(form)) {
+                e.preventDefault();
+                return;
+            }
+        }
+
+        e.preventDefault();
+
+        var wrap = form.closest('.op-wrap');
+        var postId = getPostId(form);
+        var parentInput = form.querySelector('input[name="parent_id"]');
+        var parentId = parentInput ? parseInt(parentInput.value || '0', 10) : 0;
+
+        if (!postId) {
+            showMsg(form, 'error', 'Không xác định được bài viết.');
+            return;
+        }
+
+        var btn = form.querySelector('.btn-send, .op-btn-sm');
+        if (btn) {
+            btn.disabled = true;
+            btn.dataset.orig = btn.innerHTML;
+        }
+
+        var tsInput = form.querySelector('input[name="cf-turnstile-response"]');
+        var avatarInput = form.querySelector('input[name="avatar_id"]');
+        
+        var data = {
+            action: 'op_submit_comment_ajax',
+            nonce: OP_AJAX.nonce,
+            post_id: postId,
+            parent_id: parentId,
+            comment_author: (form.querySelector('input[name="comment_author"]') || {}).value || '',
+            comment_author_email: (form.querySelector('input[name="comment_author_email"]') || {}).value || '',
+            comment_content: (form.querySelector('textarea[name="comment_content"]') || {}).value || '',
+            website: (form.querySelector('input[name="website"]') || {}).value || '',
+            avatar_id: avatarInput ? avatarInput.value : ''
+        };
+        if (tsInput && tsInput.value) {
+            data['cf-turnstile-response'] = tsInput.value;
+        }
+
+        var pinnedInput = form.querySelector('input[name="is_pinned"]');
+        if (pinnedInput && pinnedInput.checked) {
+            data.is_pinned = '1';
+        }
+
+        postAjax(data).then(function (res) {
+            if (res && res.success) {
+                showMsg(form, 'success', (res.data && res.data.message) ? res.data.message : 'Cảm ơn bạn!');
+
+                if (res.data && res.data.html) {
+                    if (parentId > 0) {
+                        var item = form.closest('.op-item');
+                        if (!item) return;
+                        var panel = item.querySelector('.op-replies-acc-panel');
+
+                        if (panel) {
+                            panel.style.display = 'block';
+                            var replies = panel.querySelector('.op-replies');
+                            if (replies) {
+                                replies.insertAdjacentHTML('beforeend', res.data.html);
+                                var loadedNow = replies.querySelectorAll('.op-item').length;
+                                replies.dataset.loaded = String(loadedNow);
+                            }
+                        }
+                    } else {
+                        if (!wrap) wrap = form.closest('.op-wrap');
+                        if (!wrap) return;
+                        var list = wrap.querySelector('.op-list');
+                        if (!list) return;
+                        var empty = list.querySelector('.op-empty');
+                        if (empty) empty.remove();
+                        list.insertAdjacentHTML('afterbegin', res.data.html);
+                        var btnLoad = wrap.querySelector('.op-loadmore');
+                        if (btnLoad) {
+                            var currentLoaded = list.querySelectorAll('.op-item').length;
+                            btnLoad.dataset.offset = String(currentLoaded);
+                        }
+                    }
+                }
+
+                form.reset();
+                // Reset avatar picker if present
+                var picker = form.querySelector('.avatar-picker');
+                if (picker) {
+                    picker.classList.remove('has-avatar');
+                    var thumb = picker.querySelector('.avatar-thumb');
+                    if (thumb) thumb.style.backgroundImage = '';
+                    var avInput = picker.querySelector('input');
+                    if (avInput) avInput.value = '';
+                }
+                
+            } else {
+                var msg = (res && res.data && res.data.message) ? res.data.message : 'Có lỗi xảy ra.';
+                showMsg(form, 'error', msg);
+            }
+        }).catch(function () {
+            showMsg(form, 'error', 'Không thể gửi bình luận, thử lại sau.');
+        }).finally(function () {
+            var scope = form.closest('.op-card') || form.closest('.op-reply-form') || form;
+            resetTurnstile(scope);
+            restoreBtn(form);
+        });
+    });
+
+    // Spoil Reveal
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('.op-spoil-btn')) {
+            var content = e.target.closest('.op-content');
+            if (content) {
+                content.classList.add('is-revealed');
+            }
+        }
+    });
+
+})();
